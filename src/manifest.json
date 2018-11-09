@@ -1,0 +1,17 @@
+{
+  "compatibleVersion": 50,
+  "bundleVersion": 1,
+  "commands": [
+    {
+      "name": "STRV Symbols",
+      "description": "Manage your symbols",
+      "identifier": "symbols",
+      "script": "./show-symbols.js",
+      "shortcut": "ctrl alt y"
+    }
+  ],
+  "menu": {
+    "isRoot": true,
+    "items": ["symbols"]
+  }
+}
