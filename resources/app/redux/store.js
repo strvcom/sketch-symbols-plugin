@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware } from 'redux'
-import rootReducer from './ducks'
+import rootReducer from './reducers'
 import middlewares from './middlewares'
 
 const store = applyMiddleware(...middlewares)(createStore)(rootReducer)
