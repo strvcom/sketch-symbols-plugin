@@ -31,7 +31,7 @@
     "lint": "eslint --ignore-path=.gitignore .",
     "prettier:base": "prettier --write",
     "prettify": "npm run prettier:base \"./src/**/*.{js,jsx}\" \"./resources/**/*.{js,jsx}\"",
-    "zombies": "delete-react-zombies"
+    "depcheck": "depcheck"
   },
   "devDependencies": {
     "@babel/standalone": "^7.1.0",
@@ -44,7 +44,7 @@
     "cocoascript-class": "^0.1.2",
     "codemirror": "^5.40.2",
     "css-loader": "^1.0.0",
-    "dayjs": "^1.7.7",
+    "depcheck": "^0.6.11",
     "emotion": "^9.2.12",
     "emotion-theming": "^9.2.9",
     "eslint": "^5.7.0",
@@ -61,18 +61,15 @@
     "prettier": "^1.14.3",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
-    "react-codemirror2": "^5.1.0",
     "react-dom": "^16.5.2",
     "react-emotion": "^9.2.12",
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-split-pane": "^0.1.84",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6"
   },
   "dependencies": {
-    "delete-react-zombies": "0.0.3",
     "sketch-module-web-view": "^2.0.1",
     "sketch-utils": "^0.2.8"
   },

@@ -3,16 +3,14 @@ import { Route, Redirect, Switch } from 'react-router'
 import { HashRouter } from 'react-router-dom'
 
 import App from './components/app'
-import Elements from './components/elements'
-import NotFound from './components/404'
+import Dummy from './components/dummy'
 
 export default () => (
   <HashRouter>
     <App>
       <Switch>
-        <Route exact path="/" render={() => <Redirect to="/elements" />} />
-        <Route exact path="/elements" component={Elements} />
-        <Route component={NotFound} />
+        <Route exact path="/" render={() => <Redirect to="/dummy" />} />
+        <Route component={Dummy} />
       </Switch>
     </App>
   </HashRouter>

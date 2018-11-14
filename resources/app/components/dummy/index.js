@@ -2,6 +2,6 @@ import React from 'react'
 
 export default () => (
   <div>
-    <p>Not found, not sure how you got here :/</p>
+    <p>This is a space beyond...</p>
   </div>
 )
