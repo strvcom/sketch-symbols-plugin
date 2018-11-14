@@ -1,9 +1,10 @@
 /* globals NSWorkspace, MSTheme */
-/* eslint-disable global-require */
+/* eslint-disable global-require, no-console */
 import Settings from 'sketch/settings' // eslint-disable-line
 import BrowserWindow from 'sketch-module-web-view'
+import sketch from 'sketch' // eslint-disable-line
 
-export default function() {
+export default function(context) {
   // default WebView settings
   const browserWindow = new BrowserWindow({
     identifier: 'symbols',
@@ -21,7 +22,7 @@ export default function() {
 
   // load html template
   browserWindow.loadURL(require('../resources/webview.html'))
-
+  // sets the window theme according to osx setting
   const settings = {
     theme:
       typeof MSTheme !== 'undefined' && MSTheme.sharedTheme().isDark()
@@ -33,11 +34,25 @@ export default function() {
     `window.initialSettings = ${JSON.stringify(settings)}`
   )
 
+  // Functions
+  const document = sketch.fromNative(context.document)
+  const symbols = document.getSymbols()
+
+  const logNames = something => {
+    something.map(s => console.log(s.name))
+  }
+
+  logNames(symbols)
+
   browserWindow.once('ready-to-show', () => {
     browserWindow.show()
   })
 
-  browserWindow.webContents.on('openFile', file => {
+  const { webContents } = browserWindow
+
+  webContents.on('openFile', file => {
     NSWorkspace.sharedWorkspace().openFile(file)
   })
+
+  webContents.on('logger', message => console.log(message))
 }
