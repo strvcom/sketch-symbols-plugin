@@ -4,7 +4,7 @@ import Settings from 'sketch/settings' // eslint-disable-line
 import BrowserWindow from 'sketch-module-web-view'
 import sketch from 'sketch' // eslint-disable-line
 
-export default function(context) {
+export default function() {
   // default WebView settings
   const browserWindow = new BrowserWindow({
     identifier: 'symbols',
@@ -35,14 +35,14 @@ export default function(context) {
   )
 
   // Functions
-  const document = sketch.fromNative(context.document)
-  const symbols = document.getSymbols()
+  // const document = sketch.fromNative(context.document)
+  // const symbols = document.getSymbols()
 
-  const logNames = something => {
-    something.map(s => console.log(s.name))
-  }
+  // const logNames = something => {
+  //   something.map(s => console.log(s.name))
+  // }
 
-  logNames(symbols)
+  // logNames(symbols)
 
   browserWindow.once('ready-to-show', () => {
     browserWindow.show()
@@ -55,4 +55,13 @@ export default function(context) {
   })
 
   webContents.on('logger', message => console.log(message))
+
+  // need to modify this for a base communication with redux
+  // webContents
+  //   .executeJavaScript('fromPluginMessenger("There and back again")')
+  //   .then(res => console.log(res))
+
+  webContents.on('nativeLog', s => {
+    sketch.UI.message(s)
+  })
 }

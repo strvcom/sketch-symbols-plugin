@@ -1,4 +1,4 @@
-/* globals document */
+/* globals window */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -8,8 +8,12 @@ import { Container, TabContent } from './styled'
 import getTheme from '../theme'
 
 class App extends Component {
-  constructor(props) {
-    super(props)
+  // constructor(props) {
+  //   super(props)
+  // }
+
+  componentDidMount() {
+    window.postMessage('nativeLog', 'Message from react')
   }
 
   render() {
@@ -27,7 +31,6 @@ class App extends Component {
 
 App.propTypes = {
   children: PropTypes.node.isRequired,
-  dispatch: PropTypes.func,
   theme: PropTypes.string,
 }
 
