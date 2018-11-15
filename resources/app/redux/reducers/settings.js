@@ -2,11 +2,8 @@
 const UPDATE_SETTING = 'settings/UPDATE_SETTING'
 
 const initialState = window.initialSettings || {
-  withAncestors: false,
   alwaysOnTop: false,
   theme: 'light',
-  showTimestamps: false,
-  sourcemaps: true,
 }
 
 const handlers = {}
@@ -27,11 +24,8 @@ handlers[UPDATE_SETTING] = (state, { payload }) => ({
   [payload.key]: payload.value,
 })
 
-export const updateWithAncestors = updateSettingAction('withAncestors')
 export const updateAlwaysOnTop = updateSettingAction('alwaysOnTop')
 export const updateTheme = updateSettingAction('theme')
-export const updateShowTimestamps = updateSettingAction('showTimestamps')
-export const updateSourcemaps = updateSettingAction('sourcemaps')
 
 export default function(state = initialState, action) {
   if (handlers[action.type]) {
