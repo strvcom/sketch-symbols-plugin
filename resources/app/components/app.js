@@ -1,4 +1,3 @@
-/* globals window */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -6,15 +5,15 @@ import { withRouter } from 'react-router'
 import { ThemeProvider } from 'emotion-theming'
 import { Container, TabContent } from './styled'
 import getTheme from '../theme'
+import bridgeHandler from '../handler'
 
 class App extends Component {
-  // constructor(props) {
-  //   super(props)
-  // }
-
-  componentDidMount() {
-    window.postMessage('nativeLog', 'Message from react')
+  constructor(props) {
+    super(props)
+    bridgeHandler(props.dispatch)
   }
+
+  componentDidMount() {}
 
   render() {
     const { children, theme } = this.props
@@ -32,10 +31,11 @@ class App extends Component {
 App.propTypes = {
   children: PropTypes.node.isRequired,
   theme: PropTypes.string,
+  dispatch: PropTypes.func,
 }
 
-export default withRouter(
-  connect(state => ({
-    theme: state.settings.theme,
-  }))(App)
-)
+const mapStateToProps = state => ({
+  theme: state.settings.theme,
+})
+
+export default withRouter(connect(mapStateToProps)(App))

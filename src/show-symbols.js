@@ -1,8 +1,10 @@
-/* globals NSWorkspace, MSTheme */
+/* globals NSWorkspace, MSTheme, log */
 /* eslint-disable global-require, no-console */
 import Settings from 'sketch/settings' // eslint-disable-line
 import BrowserWindow from 'sketch-module-web-view'
 import sketch from 'sketch' // eslint-disable-line
+import { SET_SYMBOLS } from '../shared-actions'
+import getAllSymbols from './get-all-symbols'
 
 export default function() {
   // default WebView settings
@@ -34,16 +36,6 @@ export default function() {
     `window.initialSettings = ${JSON.stringify(settings)}`
   )
 
-  // Functions
-  // const document = sketch.fromNative(context.document)
-  // const symbols = document.getSymbols()
-
-  // const logNames = something => {
-  //   something.map(s => console.log(s.name))
-  // }
-
-  // logNames(symbols)
-
   browserWindow.once('ready-to-show', () => {
     browserWindow.show()
   })
@@ -54,14 +46,21 @@ export default function() {
     NSWorkspace.sharedWorkspace().openFile(file)
   })
 
-  webContents.on('logger', message => console.log(message))
-
-  // need to modify this for a base communication with redux
-  // webContents
-  //   .executeJavaScript('fromPluginMessenger("There and back again")')
-  //   .then(res => console.log(res))
-
   webContents.on('nativeLog', s => {
     sketch.UI.message(s)
+    log(s)
+  })
+
+  // listen to getSymbols from React
+  // send back data
+  browserWindow.webContents.on('getSymbols', () => {
+    const state = getAllSymbols()
+    console.log(state)
+
+    browserWindow.webContents
+      .executeJavaScript(
+        `sketchBridge(${JSON.stringify({ name: SET_SYMBOLS, payload: state })})`
+      )
+      .catch(console.error)
   })
 }
