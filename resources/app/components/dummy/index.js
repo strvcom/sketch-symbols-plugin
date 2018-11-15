@@ -3,6 +3,15 @@ import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { fetchSymbols } from '../../redux/reducers/symbols'
+import {
+  Container,
+  List,
+  SymbolTile,
+  SideBar,
+  NavBar,
+  ListWrap,
+} from './styled'
+import formatName from './helpers'
 
 class Dummy extends React.Component {
   componentDidMount() {
@@ -13,18 +22,23 @@ class Dummy extends React.Component {
   render() {
     const { loading, symbols } = this.props
     return (
-      <div>
-        {loading ? (
-          <div>Loading...</div>
-        ) : (
-          <ul>
-            <li>This is a space beyond...</li>
-            {symbols.map(s => (
-              <li>{s}</li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <Container>
+        <SideBar>
+          <NavBar gray />
+        </SideBar>
+        <ListWrap>
+          <NavBar />
+          {loading ? (
+            <div>Loading...</div>
+          ) : (
+            <List>
+              {symbols.map(s => (
+                <SymbolTile>{formatName(s)}</SymbolTile>
+              ))}
+            </List>
+          )}
+        </ListWrap>
+      </Container>
     )
   }
 }
