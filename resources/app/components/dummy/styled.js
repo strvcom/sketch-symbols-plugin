@@ -7,9 +7,11 @@ export const Container = styled.div`
 `
 
 export const SideBar = styled.div`
-  width: 25%;
+  width: 270px;
   height: 100%;
-  background-color: #f5f9fa;
+  position: fixed;
+  left: 0;
+  background-color: #f6f6f6;
 `
 
 export const NavBar = styled.div`
@@ -19,34 +21,57 @@ export const NavBar = styled.div`
   top: 0;
   width: 100%;
   height: 50px;
-  background-color: ${props => (props.gray ? '#f5f9fa' : '#fff')};
+`
+
+export const SearchWrap = styled.div`
+  display: flex;
+  position: fixed;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  width: 270px;
+  height: 100%;
+  background-color: #f6f6f6;
 `
 
 export const ListWrap = styled.div`
   display: flex;
-  flex-direction: column;
-  width: 75%;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  width: 100%;
+  padding: 72px 32px 72px 302px;
 `
 
 export const List = styled.ul`
   display: flex;
+  justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
-  margin-top: 50px;
-  margin-left: 50px;
 `
 
 export const SymbolTile = styled.li`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: calc(33% - 24px);
-  height: 100px;
-  margin: 8px 4px 0 4px;
-  background-color: #f5f9fa;
+  position: relative;
+  width: 258px;
+  height: 258px;
+  background-color: #f6f6f6;
+  margin-bottom: 56px;
 `
 
 export const Label = styled.p`
   font-size: 16px;
   text-align: center;
+`
+
+export const SymbolPath = styled.p`
+  font-size: 14px;
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -22px;
 `

@@ -11,15 +11,15 @@ export default function() {
   const browserWindow = new BrowserWindow({
     identifier: 'symbols',
     title: 'Symbols Manager',
-    width: 1024,
-    height: 640,
+    width: 1140,
+    height: 760,
     minimizable: false,
     maximizable: false,
-    alwaysOnTop: true,
     fullscreenable: false,
-    acceptFirstMouse: true,
-    resizable: true,
+    resizable: false,
     show: false,
+    alwaysOnTop: true,
+    acceptFirstMouse: true,
   })
 
   // load html template

@@ -10,6 +10,8 @@ import {
   SideBar,
   NavBar,
   ListWrap,
+  SearchWrap,
+  SymbolPath,
 } from './styled'
 import formatName from './helpers'
 
@@ -23,17 +25,20 @@ class Dummy extends React.Component {
     const { loading, symbols } = this.props
     return (
       <Container>
+        <NavBar gray />
         <SideBar>
-          <NavBar gray />
+          <SearchWrap />
         </SideBar>
         <ListWrap>
-          <NavBar />
           {loading ? (
             <div>Loading...</div>
           ) : (
             <List>
               {symbols.map(s => (
-                <SymbolTile>{formatName(s)}</SymbolTile>
+                <SymbolTile>
+                  {formatName(s)}
+                  <SymbolPath>{s}</SymbolPath>
+                </SymbolTile>
               ))}
             </List>
           )}
