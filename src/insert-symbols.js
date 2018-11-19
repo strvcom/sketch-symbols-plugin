@@ -1,12 +1,12 @@
 import sketch from 'sketch' // eslint-disable-line
 
-export default function() {
+export default function(symbol) {
   const document = sketch.Document.getSelectedDocument()
   const page = document.selectedPage
 
-  const symbols = document.getSymbols()
+  // const symbols = document.getSymbols()
 
-  const firstSymbol = symbols.shift()
+  // const firstSymbol = symbols.shift()
 
   // Try to insert more symbols
 
@@ -23,8 +23,8 @@ export default function() {
 
   const newSymbolInstance = new sketch.SymbolInstance({
     parent: page,
-    symbolId: firstSymbol.symbolId,
-    name: firstSymbol.name,
+    symbolId: symbol,
+    // name: firstSymbol.name,
   })
 
   document.centerOnLayer(newSymbolInstance)

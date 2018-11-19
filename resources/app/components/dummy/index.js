@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { fetchSymbols } from '../../redux/reducers/symbols'
+import { fetchSymbols, selectSymbol } from '../../redux/reducers/symbols'
 import {
   Container,
   List,
@@ -33,7 +33,7 @@ class Dummy extends React.Component {
   }
 
   render() {
-    const { loading, symbols } = this.props
+    const { loading, symbols, dispatch } = this.props
     const { selectedSymbol } = this.state
     return (
       <Container>
@@ -43,7 +43,7 @@ class Dummy extends React.Component {
             <FolderIcon />
             {selectedSymbol}
           </BreadCrums>
-          <ButtonWrap>
+          <ButtonWrap onClick={() => dispatch(selectSymbol(selectedSymbol))}>
             <InsertButton />
           </ButtonWrap>
         </NavBar>

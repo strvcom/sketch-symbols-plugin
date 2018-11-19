@@ -5,6 +5,7 @@ import BrowserWindow from 'sketch-module-web-view'
 import sketch from 'sketch' // eslint-disable-line
 import { SET_SYMBOLS } from '../shared-actions'
 import getAllSymbols from './get-all-symbols'
+import insertSymbols from './insert-symbols'
 
 export default function() {
   // default WebView settings
@@ -53,14 +54,17 @@ export default function() {
 
   // listen to getSymbols from React
   // send back data
-  browserWindow.webContents.on('getSymbols', () => {
+  webContents.on('getSymbols', () => {
     const state = getAllSymbols()
-    console.log(state)
 
-    browserWindow.webContents
+    webContents
       .executeJavaScript(
         `sketchBridge(${JSON.stringify({ name: SET_SYMBOLS, payload: state })})`
       )
       .catch(console.error)
+  })
+
+  webContents.on('insertSymbol', symbol => {
+    insertSymbols(symbol)
   })
 }
