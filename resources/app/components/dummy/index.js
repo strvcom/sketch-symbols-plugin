@@ -12,10 +12,21 @@ import {
   ListWrap,
   SearchWrap,
   SymbolPath,
+  BreadCrums,
+  ButtonWrap,
 } from './styled'
+import FolderIcon from '../../assets/folder-icon'
+import InsertButton from '../insert-button'
 import formatName from './helpers'
 
 class Dummy extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      selectedSymbol: '',
+    }
+  }
+
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(fetchSymbols())
@@ -23,21 +34,31 @@ class Dummy extends React.Component {
 
   render() {
     const { loading, symbols } = this.props
+    const { selectedSymbol } = this.state
     return (
       <Container>
-        <NavBar gray />
-        <SideBar>
+        <NavBar>
           <SearchWrap />
-        </SideBar>
+          <BreadCrums>
+            <FolderIcon />
+            {selectedSymbol}
+          </BreadCrums>
+          <ButtonWrap>
+            <InsertButton />
+          </ButtonWrap>
+        </NavBar>
+        <SideBar />
         <ListWrap>
           {loading ? (
             <div>Loading...</div>
           ) : (
             <List>
               {symbols.map(s => (
-                <SymbolTile>
-                  {formatName(s)}
-                  <SymbolPath>{s}</SymbolPath>
+                <SymbolTile
+                  onClick={() => this.setState({ selectedSymbol: s.symbolId })}
+                >
+                  {formatName(s.name)}
+                  <SymbolPath>{s.name}</SymbolPath>
                 </SymbolTile>
               ))}
             </List>

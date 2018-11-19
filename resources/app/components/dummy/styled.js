@@ -1,4 +1,4 @@
-import styled from 'react-emotion'
+import styled, { css } from 'react-emotion'
 
 export const Container = styled.div`
   display: flex;
@@ -21,12 +21,12 @@ export const NavBar = styled.div`
   top: 0;
   width: 100%;
   height: 50px;
+  z-index: 10;
+  background-color: #fff;
 `
 
 export const SearchWrap = styled.div`
   display: flex;
-  position: fixed;
-  left: 0;
   justify-content: center;
   align-items: center;
   width: 270px;
@@ -57,9 +57,22 @@ export const SymbolTile = styled.li`
   align-items: center;
   position: relative;
   width: 258px;
-  height: 258px;
+  height: 80px;
   background-color: #f6f6f6;
   margin-bottom: 56px;
+  border: 2px solid #fff;
+  border-radius: 2px;
+  cursor: pointer;
+
+  &:hover {
+    border: 2px solid #72d1fb;
+  }
+
+  ${p =>
+    p.selected &&
+    css`
+      border: 2px solid #d941f1;
+    `};
 `
 
 export const Label = styled.p`
@@ -74,4 +87,24 @@ export const SymbolPath = styled.p`
   left: 0;
   right: 0;
   bottom: -22px;
+`
+
+export const BreadCrums = styled.div`
+  font-size: 14px;
+  margin-left: 32px;
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 8px;
+  }
+`
+
+export const ButtonWrap = styled.div`
+  position: fixed;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  right: 32px;
+  top: 0;
 `
