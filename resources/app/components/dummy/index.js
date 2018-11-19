@@ -2,6 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { append, last } from 'ramda'
 import { fetchSymbols, selectSymbols } from '../../redux/reducers/symbols'
 import {
   Container,
@@ -23,7 +24,7 @@ class Dummy extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedSymbols: '',
+      selectedSymbols: [],
     }
   }
 
@@ -41,7 +42,7 @@ class Dummy extends React.Component {
           <SearchWrap />
           <BreadCrums>
             <FolderIcon />
-            {selectedSymbols}
+            {last(selectedSymbols)}
           </BreadCrums>
           <ButtonWrap onClick={() => dispatch(selectSymbols(selectedSymbols))}>
             <InsertButton />
@@ -55,7 +56,11 @@ class Dummy extends React.Component {
             <List>
               {symbols.map(s => (
                 <SymbolTile
-                  onClick={() => this.setState({ selectedSymbols: s.symbolId })}
+                  onClick={() =>
+                    this.setState({
+                      selectedSymbols: append(s.symbolId, selectedSymbols),
+                    })
+                  }
                 >
                   {formatName(s.name)}
                   <SymbolPath>{s.name}</SymbolPath>

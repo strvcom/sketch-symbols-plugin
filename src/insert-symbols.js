@@ -21,11 +21,21 @@ export default function(symbols) {
   //   document.centerOnLayer(newSymbolInstance)
   // })
 
-  const newSymbolInstance = new sketch.SymbolInstance({
-    parent: page,
-    symbolId: symbols,
-    // name: firstSymbol.name,
-  })
+  // const newSymbolInstance = new sketch.SymbolInstance({
+  //   parent: page,
+  //   symbolId: symbols,
+  //   // name: firstSymbol.name,
+  // })
 
-  document.centerOnLayer(newSymbolInstance)
+  // document.centerOnLayer(newSymbolInstance)
+
+  symbols.map(s => {
+    const newSymbolInstance = new sketch.SymbolInstance({
+      parent: page,
+      symbolId: s,
+      // name: firstSymbol.name,
+    })
+    document.centerOnLayer(newSymbolInstance)
+    return 'Symbols inserted'
+  })
 }
