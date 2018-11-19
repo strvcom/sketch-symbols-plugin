@@ -8,10 +8,16 @@
       "identifier": "symbols",
       "script": "./show-symbols.js",
       "shortcut": "ctrl alt y"
+    },
+    {
+      "name": "Insert Symbols",
+      "description": "Playground for inserting symbols",
+      "identifier": "insert",
+      "script": "./insert-symbols.js"
     }
   ],
   "menu": {
-    "isRoot": true,
-    "items": ["symbols"]
+    "title": "STRV Symbols",
+    "items": ["symbols", "insert"]
   }
 }
