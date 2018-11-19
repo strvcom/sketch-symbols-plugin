@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { fetchSymbols, selectSymbol } from '../../redux/reducers/symbols'
+import { fetchSymbols, selectSymbols } from '../../redux/reducers/symbols'
 import {
   Container,
   List,
@@ -23,7 +23,7 @@ class Dummy extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedSymbol: '',
+      selectedSymbols: '',
     }
   }
 
@@ -34,16 +34,16 @@ class Dummy extends React.Component {
 
   render() {
     const { loading, symbols, dispatch } = this.props
-    const { selectedSymbol } = this.state
+    const { selectedSymbols } = this.state
     return (
       <Container>
         <NavBar>
           <SearchWrap />
           <BreadCrums>
             <FolderIcon />
-            {selectedSymbol}
+            {selectedSymbols}
           </BreadCrums>
-          <ButtonWrap onClick={() => dispatch(selectSymbol(selectedSymbol))}>
+          <ButtonWrap onClick={() => dispatch(selectSymbols(selectedSymbols))}>
             <InsertButton />
           </ButtonWrap>
         </NavBar>
@@ -55,7 +55,7 @@ class Dummy extends React.Component {
             <List>
               {symbols.map(s => (
                 <SymbolTile
-                  onClick={() => this.setState({ selectedSymbol: s.symbolId })}
+                  onClick={() => this.setState({ selectedSymbols: s.symbolId })}
                 >
                   {formatName(s.name)}
                   <SymbolPath>{s.name}</SymbolPath>

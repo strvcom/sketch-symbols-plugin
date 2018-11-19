@@ -64,7 +64,7 @@ export default function() {
       .catch(console.error)
   })
 
-  webContents.on('insertSymbol', symbol => {
-    insertSymbols(symbol)
+  webContents.on('insertSymbol', symbols => {
+    insertSymbols(symbols)
   })
 }

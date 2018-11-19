@@ -1,6 +1,6 @@
 import sketch from 'sketch' // eslint-disable-line
 
-export default function(symbol) {
+export default function(symbols) {
   const document = sketch.Document.getSelectedDocument()
   const page = document.selectedPage
 
@@ -23,7 +23,7 @@ export default function(symbol) {
 
   const newSymbolInstance = new sketch.SymbolInstance({
     parent: page,
-    symbolId: symbol,
+    symbolId: symbols,
     // name: firstSymbol.name,
   })
 
