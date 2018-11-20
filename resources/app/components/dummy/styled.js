@@ -20,9 +20,22 @@ export const NavBar = styled.div`
   position: fixed;
   top: 0;
   width: 100%;
-  height: 50px;
+  height: 48px;
   z-index: 10;
   background-color: #fff;
+`
+
+export const BottomBar = styled.div`
+  display: flex;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 870px;
+  height: 72px;
+  z-index: 10;
+  background-color: #fff;
+  box-shadow: 0 -10px 20px 0 rgba(0, 0, 0, 0.1);
 `
 
 export const SearchWrap = styled.div`
@@ -103,7 +116,20 @@ export const ButtonWrap = styled.div`
   position: fixed;
   display: flex;
   align-items: center;
-  height: 50px;
+  height: 72px;
   right: 32px;
-  top: 0;
+  bottom: 0;
+`
+
+export const SymbolsCount = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0880f6;
+  border-radius: 4px;
+  height: 20px;
+  padding: 0 5px;
+  margin-right: 8px;
+  margin-left: 32px;
+  color: #fff;
 `

@@ -1,18 +1,20 @@
 import styled from 'react-emotion'
 
 export const StyledButton = styled.button`
-  height: 34px;
-  width: 150px;
+  height: 40px;
+  width: 129px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #72d1fb;
+  background-color: #0880f6;
   border: none;
-  border-radius: 2px;
+  border-radius: 4px;
   cursor: pointer;
+  opacity: ${p => (p.inactive ? 0.5 : 1)};
 `
 
 export const Label = styled.div`
-  font-size: 14px;
+  font-size: 12px;
   color: #fff;
+  text-transform: uppercase;
 `

@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { append, last, contains, without } from 'ramda'
+import { append, contains, without, sortBy, prop, length } from 'ramda'
 import { fetchSymbols, selectSymbols } from '../../redux/reducers/symbols'
 import {
   Container,
@@ -14,6 +14,8 @@ import {
   SearchWrap,
   BreadCrums,
   ButtonWrap,
+  BottomBar,
+  SymbolsCount,
 } from './styled'
 import FolderIcon from '../../assets/folder-icon'
 import InsertButton from '../insert-button'
@@ -35,17 +37,17 @@ class Dummy extends React.Component {
   render() {
     const { loading, symbols, dispatch } = this.props
     const { selectedSymbols } = this.state
+    const sortedSymbols = sortBy(prop('name'))(symbols)
+    const count = length(selectedSymbols)
+
     return (
       <Container>
         <NavBar>
           <SearchWrap />
           <BreadCrums>
             <FolderIcon />
-            {last(selectedSymbols)}
+            All symbols ...
           </BreadCrums>
-          <ButtonWrap onClick={() => dispatch(selectSymbols(selectedSymbols))}>
-            <InsertButton />
-          </ButtonWrap>
         </NavBar>
         <SideBar />
         <ListWrap>
@@ -53,7 +55,7 @@ class Dummy extends React.Component {
             <div>Loading...</div>
           ) : (
             <List>
-              {symbols.map(s => (
+              {sortedSymbols.map(s => (
                 <SymbolTile
                   onClick={() => {
                     if (contains(s.symbolId, selectedSymbols)) {
@@ -73,6 +75,17 @@ class Dummy extends React.Component {
               ))}
             </List>
           )}
+          <BottomBar>
+            <SymbolsCount>{count}</SymbolsCount>
+            Symbols selected
+            <ButtonWrap
+              onClick={() =>
+                count > 0 ? dispatch(selectSymbols(selectedSymbols)) : null
+              }
+            >
+              <InsertButton inactive={!count} />
+            </ButtonWrap>
+          </BottomBar>
         </ListWrap>
       </Container>
     )

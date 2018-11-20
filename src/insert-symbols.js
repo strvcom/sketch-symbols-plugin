@@ -48,7 +48,6 @@ export default function(symbols) {
     }
   }
 
-  // const coordinates = setCoordinates()
   const symbolsParent = parentCheck()
 
   symbols.map(s => {
