@@ -12,13 +12,12 @@ import {
   NavBar,
   ListWrap,
   SearchWrap,
-  SymbolPath,
   BreadCrums,
   ButtonWrap,
 } from './styled'
 import FolderIcon from '../../assets/folder-icon'
 import InsertButton from '../insert-button'
-import formatName from './helpers'
+// import formatName from './helpers'
 
 class Dummy extends React.Component {
   constructor(props) {
@@ -69,8 +68,7 @@ class Dummy extends React.Component {
                   }}
                   selected={contains(s.symbolId, selectedSymbols)}
                 >
-                  {formatName(s.name)}
-                  <SymbolPath>{s.name}</SymbolPath>
+                  {s.name}
                 </SymbolTile>
               ))}
             </List>

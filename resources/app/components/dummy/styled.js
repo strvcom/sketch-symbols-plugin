@@ -52,14 +52,13 @@ export const List = styled.ul`
 
 export const SymbolTile = styled.li`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  padding-left: 8px;
   position: relative;
-  width: 258px;
-  height: 80px;
+  width: 100%;
+  height: 32px;
   background-color: #f6f6f6;
-  margin-bottom: 56px;
+  margin-bottom: 8px;
   border: 2px solid #fff;
   border-radius: 2px;
   cursor: pointer;
