@@ -3,7 +3,7 @@
 import Settings from 'sketch/settings' // eslint-disable-line
 import BrowserWindow from 'sketch-module-web-view'
 import sketch from 'sketch' // eslint-disable-line
-import { SET_SYMBOLS } from '../shared-actions'
+import { SET_SYMBOLS, SUCCESS } from '../shared-actions'
 import getAllSymbols from './get-all-symbols'
 import insertSymbols from './insert-symbols'
 
@@ -64,6 +64,15 @@ export default function() {
   // listen to insertSymbol and execute plugin
   // function to create new symbol instance
   webContents.on('insertSymbol', symbols => {
-    insertSymbols(symbols)
+    const message = insertSymbols(symbols)
+
+    webContents
+      .executeJavaScript(
+        `sketchBridge(${JSON.stringify({
+          name: SUCCESS,
+          payload: message,
+        })})`
+      )
+      .catch(console.error)
   })
 }

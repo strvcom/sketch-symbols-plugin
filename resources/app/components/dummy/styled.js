@@ -28,6 +28,7 @@ export const NavBar = styled.div`
 export const BottomBar = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   position: fixed;
   bottom: 0;
   right: 0;
@@ -113,12 +114,16 @@ export const BreadCrums = styled.div`
 `
 
 export const ButtonWrap = styled.div`
-  position: fixed;
   display: flex;
   align-items: center;
   height: 72px;
-  right: 32px;
-  bottom: 0;
+  margin-right: 32px;
+`
+
+export const CountWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 export const SymbolsCount = styled.div`
@@ -132,4 +137,16 @@ export const SymbolsCount = styled.div`
   margin-right: 8px;
   margin-left: 32px;
   color: #fff;
+`
+
+export const MessageWrap = styled.div`
+  visibility: ${p => (p.hidden ? 'hidden' : 'visible')};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(29, 194, 129, 0.1);
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 4px;
+  color: #1dc281;
 `

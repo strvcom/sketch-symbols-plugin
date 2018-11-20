@@ -68,4 +68,6 @@ export default function(symbols) {
 
     return newSymbolInstance
   })
+
+  return `Symbols inserted`
 }

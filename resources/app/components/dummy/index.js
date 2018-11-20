@@ -16,6 +16,8 @@ import {
   ButtonWrap,
   BottomBar,
   SymbolsCount,
+  MessageWrap,
+  CountWrap,
 } from './styled'
 import FolderIcon from '../../assets/folder-icon'
 import InsertButton from '../insert-button'
@@ -35,7 +37,7 @@ class Dummy extends React.Component {
   }
 
   render() {
-    const { loading, symbols, dispatch } = this.props
+    const { loading, symbols, dispatch, message } = this.props
     const { selectedSymbols } = this.state
     const sortedSymbols = sortBy(prop('name'))(symbols)
     const count = length(selectedSymbols)
@@ -76,8 +78,11 @@ class Dummy extends React.Component {
             </List>
           )}
           <BottomBar>
-            <SymbolsCount>{count}</SymbolsCount>
-            Symbols selected
+            <CountWrap>
+              <SymbolsCount>{count}</SymbolsCount>
+              Symbols selected
+            </CountWrap>
+            <MessageWrap hidden={!message}>{message}</MessageWrap>
             <ButtonWrap
               onClick={() =>
                 count > 0 ? dispatch(selectSymbols(selectedSymbols)) : null
@@ -96,11 +101,13 @@ Dummy.propTypes = {
   dispatch: PropTypes.func.isRequired,
   symbols: PropTypes.arrayOf,
   loading: PropTypes.bool.isRequired,
+  message: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = state => ({
   loading: state.symbols.loading,
   symbols: state.symbols.symbols,
+  message: state.symbols.message,
 })
 
 export default withRouter(connect(mapStateToProps)(Dummy))
