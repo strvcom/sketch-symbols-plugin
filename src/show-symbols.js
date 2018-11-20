@@ -1,4 +1,4 @@
-/* globals NSWorkspace, MSTheme, log */
+/* globals MSTheme, log */
 /* eslint-disable global-require, no-console */
 import Settings from 'sketch/settings' // eslint-disable-line
 import BrowserWindow from 'sketch-module-web-view'
@@ -43,17 +43,14 @@ export default function() {
 
   const { webContents } = browserWindow
 
-  webContents.on('openFile', file => {
-    NSWorkspace.sharedWorkspace().openFile(file)
-  })
-
+  // sennd some message to sketch or log
   webContents.on('nativeLog', s => {
     sketch.UI.message(s)
     log(s)
   })
 
   // listen to getSymbols from React
-  // send back data
+  // and send back data
   webContents.on('getSymbols', () => {
     const state = getAllSymbols()
 
@@ -64,6 +61,8 @@ export default function() {
       .catch(console.error)
   })
 
+  // listen to insertSymbol and execute plugin
+  // function to create new symbol instance
   webContents.on('insertSymbol', symbols => {
     insertSymbols(symbols)
   })

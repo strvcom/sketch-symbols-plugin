@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { append, last } from 'ramda'
+import { append, last, contains, without } from 'ramda'
 import { fetchSymbols, selectSymbols } from '../../redux/reducers/symbols'
 import {
   Container,
@@ -56,11 +56,18 @@ class Dummy extends React.Component {
             <List>
               {symbols.map(s => (
                 <SymbolTile
-                  onClick={() =>
-                    this.setState({
-                      selectedSymbols: append(s.symbolId, selectedSymbols),
-                    })
-                  }
+                  onClick={() => {
+                    if (contains(s.symbolId, selectedSymbols)) {
+                      this.setState({
+                        selectedSymbols: without(s.symbolId, selectedSymbols),
+                      })
+                    } else {
+                      this.setState({
+                        selectedSymbols: append(s.symbolId, selectedSymbols),
+                      })
+                    }
+                  }}
+                  selected={contains(s.symbolId, selectedSymbols)}
                 >
                   {formatName(s.name)}
                   <SymbolPath>{s.name}</SymbolPath>
