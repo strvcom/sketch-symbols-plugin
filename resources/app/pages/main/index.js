@@ -20,10 +20,10 @@ import {
   CountWrap,
 } from './styled'
 import FolderIcon from '../../assets/folder-icon'
-import InsertButton from '../insert-button'
+import InsertButton from '../../components/insert-button'
 // import formatName from './helpers'
 
-class Dummy extends React.Component {
+class Main extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -97,7 +97,7 @@ class Dummy extends React.Component {
   }
 }
 
-Dummy.propTypes = {
+Main.propTypes = {
   dispatch: PropTypes.func.isRequired,
   symbols: PropTypes.arrayOf,
   loading: PropTypes.bool.isRequired,
@@ -110,4 +110,4 @@ const mapStateToProps = state => ({
   message: state.symbols.message,
 })
 
-export default withRouter(connect(mapStateToProps)(Dummy))
+export default withRouter(connect(mapStateToProps)(Main))
