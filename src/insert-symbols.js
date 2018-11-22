@@ -11,7 +11,7 @@ export default function(symbols) {
       const selected = document.selectedLayers.map(layer => layer)
       const selectedLayer = document.getLayerWithID(selected[0].id)
 
-      if (selectedLayer.type === 'Group') {
+      if (selectedLayer.type === 'Group' || selectedLayer.type === 'Artboard') {
         return selectedLayer
       }
       return selectedLayer.parent
@@ -41,7 +41,7 @@ export default function(symbols) {
       const selectedLayer = document.getLayerWithID(selected[0].id)
 
       /* If the selection is a group already we need to place the symbol inside the group */
-      if (selectedLayer.type === 'Group') {
+      if (selectedLayer.type === 'Group' || selectedLayer.type === 'Artboard') {
         parentMiddleX = selectedLayer.frame.width / 2
         parentMiddleY = selectedLayer.frame.height / 2
 
