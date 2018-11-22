@@ -1,9 +1,9 @@
 import React from 'react'
 import { StyledButton, Label } from './styled'
 
-const InsertButton = () => (
-  <StyledButton>
-    <Label>Insert Symbol</Label>
+const InsertButton = props => (
+  <StyledButton {...props}>
+    <Label>Insert Symbols</Label>
   </StyledButton>
 )
 

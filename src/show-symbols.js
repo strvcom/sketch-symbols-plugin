@@ -1,9 +1,9 @@
-/* globals NSWorkspace, MSTheme, log */
+/* globals MSTheme, log */
 /* eslint-disable global-require, no-console */
 import Settings from 'sketch/settings' // eslint-disable-line
 import BrowserWindow from 'sketch-module-web-view'
 import sketch from 'sketch' // eslint-disable-line
-import { SET_SYMBOLS } from '../shared-actions'
+import { SET_SYMBOLS, SUCCESS } from '../shared-actions'
 import getAllSymbols from './get-all-symbols'
 import insertSymbols from './insert-symbols'
 
@@ -43,17 +43,14 @@ export default function() {
 
   const { webContents } = browserWindow
 
-  webContents.on('openFile', file => {
-    NSWorkspace.sharedWorkspace().openFile(file)
-  })
-
+  // sennd some message to sketch or log
   webContents.on('nativeLog', s => {
     sketch.UI.message(s)
     log(s)
   })
 
   // listen to getSymbols from React
-  // send back data
+  // and send back data
   webContents.on('getSymbols', () => {
     const state = getAllSymbols()
 
@@ -64,7 +61,18 @@ export default function() {
       .catch(console.error)
   })
 
-  webContents.on('insertSymbol', symbol => {
-    insertSymbols(symbol)
+  // listen to insertSymbol and execute plugin
+  // function to create new symbol instance
+  webContents.on('insertSymbol', symbols => {
+    const message = insertSymbols(symbols)
+
+    webContents
+      .executeJavaScript(
+        `sketchBridge(${JSON.stringify({
+          name: SUCCESS,
+          payload: message,
+        })})`
+      )
+      .catch(console.error)
   })
 }

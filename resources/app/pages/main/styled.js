@@ -20,9 +20,23 @@ export const NavBar = styled.div`
   position: fixed;
   top: 0;
   width: 100%;
-  height: 50px;
+  height: 48px;
   z-index: 10;
   background-color: #fff;
+`
+
+export const BottomBar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 870px;
+  height: 72px;
+  z-index: 10;
+  background-color: #fff;
+  box-shadow: 0 -10px 20px 0 rgba(0, 0, 0, 0.1);
 `
 
 export const SearchWrap = styled.div`
@@ -52,14 +66,13 @@ export const List = styled.ul`
 
 export const SymbolTile = styled.li`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  padding-left: 8px;
   position: relative;
-  width: 258px;
-  height: 80px;
+  width: 100%;
+  height: 32px;
   background-color: #f6f6f6;
-  margin-bottom: 56px;
+  margin-bottom: 8px;
   border: 2px solid #fff;
   border-radius: 2px;
   cursor: pointer;
@@ -101,10 +114,39 @@ export const BreadCrums = styled.div`
 `
 
 export const ButtonWrap = styled.div`
-  position: fixed;
   display: flex;
   align-items: center;
-  height: 50px;
-  right: 32px;
-  top: 0;
+  height: 72px;
+  margin-right: 32px;
+`
+
+export const CountWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+export const SymbolsCount = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0880f6;
+  border-radius: 4px;
+  height: 20px;
+  padding: 0 5px;
+  margin-right: 8px;
+  margin-left: 32px;
+  color: #fff;
+`
+
+export const MessageWrap = styled.div`
+  visibility: ${p => (p.hidden ? 'hidden' : 'visible')};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(29, 194, 129, 0.1);
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 4px;
+  color: #1dc281;
 `

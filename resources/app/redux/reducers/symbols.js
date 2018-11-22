@@ -1,7 +1,7 @@
-import { SET_SYMBOLS } from '../../../../shared-actions'
+import { SET_SYMBOLS, SUCCESS } from '../../../../shared-actions'
 
 const FETCH_SYMBOLS = 'symbols/FETCH_SYMBOLS'
-const SELECT_SYMBOL = 'symbols/SELECT_SYMBOL'
+const SELECT_SYMBOLS = 'symbols/SELECT_SYMBOLS'
 
 const initialState = {
   loading: false,
@@ -35,11 +35,23 @@ handlers[SET_SYMBOLS] = (state, { payload }) => ({
   loading: false,
 })
 
-export const selectSymbol = symbol => ({
-  type: SELECT_SYMBOL,
+export const selectSymbols = symbols => ({
+  type: SELECT_SYMBOLS,
   meta: {
-    sketch: ['insertSymbol', symbol],
+    sketch: ['insertSymbol', symbols],
   },
+})
+
+export const setSuccess = message => ({
+  type: SUCCESS,
+  payload: {
+    message,
+  },
+})
+
+handlers[SUCCESS] = (state, { payload }) => ({
+  ...state,
+  message: payload.message,
 })
 
 export default function(state = initialState, action) {

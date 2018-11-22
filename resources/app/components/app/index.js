@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { ThemeProvider } from 'emotion-theming'
 import { Container, TabContent } from './styled'
-import getTheme from '../theme'
-import bridgeHandler from '../handler'
+import getTheme from '../../theme'
+import bridgeHandler from '../../handler'
 
 class App extends Component {
   constructor(props) {
