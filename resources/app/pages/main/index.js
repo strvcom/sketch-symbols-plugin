@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { append, contains, without, sortBy, prop, length } from 'ramda'
+import { append, includes, without, sortBy, prop, length } from 'ramda'
 import { fetchSymbols, selectSymbols } from '../../redux/reducers/symbols'
 import {
   Container,
@@ -18,16 +18,19 @@ import {
   SymbolsCount,
   MessageWrap,
   CountWrap,
+  FolderList,
+  Folder,
 } from './styled'
 import FolderIcon from '../../assets/folder-icon'
 import InsertButton from '../../components/insert-button'
-// import formatName from './helpers'
+import createFolders from './helpers'
 
 class Main extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       selectedSymbols: [],
+      selectedFolder: '',
     }
   }
 
@@ -38,9 +41,10 @@ class Main extends React.Component {
 
   render() {
     const { loading, symbols, dispatch, message } = this.props
-    const { selectedSymbols } = this.state
+    const { selectedSymbols, selectedFolder } = this.state
     const sortedSymbols = sortBy(prop('name'))(symbols)
     const count = length(selectedSymbols)
+    const folders = createFolders(symbols)
 
     return (
       <Container>
@@ -51,36 +55,71 @@ class Main extends React.Component {
             All symbols ...
           </BreadCrums>
         </NavBar>
-        <SideBar />
+        <SideBar>
+          <FolderList>
+            {folders.map(s => (
+              <Folder
+                onClick={() =>
+                  this.setState({
+                    selectedFolder: s,
+                  })
+                }
+                selected={selectedFolder === s}
+              >
+                <FolderIcon />
+                {s}
+              </Folder>
+            ))}
+          </FolderList>
+        </SideBar>
         <ListWrap>
           {loading ? (
             <div>Loading...</div>
           ) : (
-            <List>
-              {sortedSymbols.map(s => (
-                <SymbolTile
-                  onClick={() => {
-                    if (contains(s.symbolId, selectedSymbols)) {
+            <React.Fragment>
+              <List>
+                {sortedSymbols.map(s => (
+                  <SymbolTile
+                    onClick={() => {
+                      if (includes(s.symbolId, selectedSymbols)) {
+                        this.setState({
+                          selectedSymbols: without(s.symbolId, selectedSymbols),
+                        })
+                      } else {
+                        this.setState({
+                          selectedSymbols: append(s.symbolId, selectedSymbols),
+                        })
+                      }
+                    }}
+                    selected={includes(s.symbolId, selectedSymbols)}
+                  >
+                    {s.name}
+                  </SymbolTile>
+                ))}
+              </List>
+              <h2>Folders</h2>
+              <FolderList>
+                {folders.map(s => (
+                  <Folder
+                    onClick={() =>
                       this.setState({
-                        selectedSymbols: without(s.symbolId, selectedSymbols),
-                      })
-                    } else {
-                      this.setState({
-                        selectedSymbols: append(s.symbolId, selectedSymbols),
+                        selectedFolder: s,
                       })
                     }
-                  }}
-                  selected={contains(s.symbolId, selectedSymbols)}
-                >
-                  {s.name}
-                </SymbolTile>
-              ))}
-            </List>
+                    selected={selectedFolder === s}
+                  >
+                    <FolderIcon />
+                    {s}
+                  </Folder>
+                ))}
+              </FolderList>
+            </React.Fragment>
           )}
           <BottomBar>
             <CountWrap>
               <SymbolsCount>{count}</SymbolsCount>
-              Symbols selected
+              {count > 1 ? 'Symbols ' : 'Symbol '}
+              selected
             </CountWrap>
             <MessageWrap hidden={!message}>{message}</MessageWrap>
             <ButtonWrap

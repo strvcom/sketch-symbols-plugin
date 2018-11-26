@@ -6,11 +6,12 @@ export const Container = styled.div`
   position: relative;
 `
 
-export const SideBar = styled.div`
+export const SideBar = styled.aside`
   width: 270px;
   height: 100%;
   position: fixed;
   left: 0;
+  z-index: 5;
   background-color: #f6f6f6;
 `
 
@@ -50,7 +51,8 @@ export const SearchWrap = styled.div`
 
 export const ListWrap = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   position: absolute;
   right: 0;
   width: 100%;
@@ -59,8 +61,7 @@ export const ListWrap = styled.div`
 
 export const List = styled.ul`
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  flex-direction: column;
   width: 100%;
 `
 
@@ -149,4 +150,42 @@ export const MessageWrap = styled.div`
   padding: 0 16px;
   border-radius: 4px;
   color: #1dc281;
+`
+
+export const FolderList = styled.ul`
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`
+
+export const Folder = styled.li`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  position: relative;
+  width: 100%;
+  height: 32px;
+  margin-bottom: 8px;
+
+  &:hover {
+    background-color: rgba(52, 53, 54, 0.05);
+  }
+
+  ${p =>
+    p.selected &&
+    css`
+      background-color: #0880f6;
+      color: #fff;
+
+      &:hover {
+        background-color: #0880f6;
+      }
+    `};
+
+  svg {
+    margin-right: 8px;
+    margin-left: 24px;
+  }
 `
