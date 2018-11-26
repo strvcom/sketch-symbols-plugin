@@ -13,6 +13,7 @@ export const SideBar = styled.aside`
   left: 0;
   z-index: 5;
   background-color: #f6f6f6;
+  overflow: scroll;
 `
 
 export const NavBar = styled.div`
@@ -153,7 +154,7 @@ export const MessageWrap = styled.div`
 `
 
 export const FolderList = styled.ul`
-  margin-top: 8px;
+  margin-top: 56px;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -186,6 +187,14 @@ export const Folder = styled.li`
 
   svg {
     margin-right: 8px;
-    margin-left: 24px;
+    margin-left: 56px;
   }
+
+  ${p =>
+    p.mainFolder &&
+    css`
+      svg {
+        margin-left: 24px;
+      }
+    `};
 `

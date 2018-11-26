@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { append, includes, without, sortBy, prop, length } from 'ramda'
+import { append, includes, without, sortBy, prop, length, path } from 'ramda'
 import { fetchSymbols, selectSymbols } from '../../redux/reducers/symbols'
 import {
   Container,
@@ -23,7 +23,8 @@ import {
 } from './styled'
 import FolderIcon from '../../assets/folder-icon'
 import InsertButton from '../../components/insert-button'
-import createFolders from './helpers'
+import SketchDocumentIcon from '../../assets/sketch-document-icon'
+import { createFolders, groupByFolders } from './helpers'
 
 class Main extends React.Component {
   constructor(props) {
@@ -44,7 +45,10 @@ class Main extends React.Component {
     const { selectedSymbols, selectedFolder } = this.state
     const sortedSymbols = sortBy(prop('name'))(symbols)
     const count = length(selectedSymbols)
-    const folders = createFolders(symbols)
+    const folders = createFolders(sortedSymbols)
+    const groups = groupByFolders(sortedSymbols)
+    const selectedGroup = path([selectedFolder], groups)
+    const selection = selectedGroup || sortedSymbols
 
     return (
       <Container>
@@ -52,68 +56,63 @@ class Main extends React.Component {
           <SearchWrap />
           <BreadCrums>
             <FolderIcon />
-            All symbols ...
+            {selectedFolder ? `${selectedFolder} ...` : 'All symbols ...'}
           </BreadCrums>
         </NavBar>
         <SideBar>
           <FolderList>
-            {folders.map(s => (
+            <React.Fragment>
               <Folder
+                mainFolder
                 onClick={() =>
                   this.setState({
-                    selectedFolder: s,
+                    selectedFolder: '',
                   })
                 }
-                selected={selectedFolder === s}
               >
-                <FolderIcon />
-                {s}
+                <SketchDocumentIcon />
+                Document
               </Folder>
-            ))}
+              {folders.map(s => (
+                <Folder
+                  onClick={() =>
+                    this.setState({
+                      selectedFolder: s,
+                    })
+                  }
+                  selected={selectedFolder === s}
+                >
+                  <FolderIcon />
+                  {s}
+                </Folder>
+              ))}
+            </React.Fragment>
           </FolderList>
         </SideBar>
         <ListWrap>
           {loading ? (
             <div>Loading...</div>
           ) : (
-            <React.Fragment>
-              <List>
-                {sortedSymbols.map(s => (
-                  <SymbolTile
-                    onClick={() => {
-                      if (includes(s.symbolId, selectedSymbols)) {
-                        this.setState({
-                          selectedSymbols: without(s.symbolId, selectedSymbols),
-                        })
-                      } else {
-                        this.setState({
-                          selectedSymbols: append(s.symbolId, selectedSymbols),
-                        })
-                      }
-                    }}
-                    selected={includes(s.symbolId, selectedSymbols)}
-                  >
-                    {s.name}
-                  </SymbolTile>
-                ))}
-              </List>
-              <h2>Folders</h2>
-              <FolderList>
-                {folders.map(s => (
-                  <Folder
-                    onClick={() =>
+            <List>
+              {selection.map(s => (
+                <SymbolTile
+                  onClick={() => {
+                    if (includes(s.symbolId, selectedSymbols)) {
                       this.setState({
-                        selectedFolder: s,
+                        selectedSymbols: without(s.symbolId, selectedSymbols),
+                      })
+                    } else {
+                      this.setState({
+                        selectedSymbols: append(s.symbolId, selectedSymbols),
                       })
                     }
-                    selected={selectedFolder === s}
-                  >
-                    <FolderIcon />
-                    {s}
-                  </Folder>
-                ))}
-              </FolderList>
-            </React.Fragment>
+                  }}
+                  selected={includes(s.symbolId, selectedSymbols)}
+                >
+                  {s.name}
+                </SymbolTile>
+              ))}
+            </List>
           )}
           <BottomBar>
             <CountWrap>
@@ -124,7 +123,13 @@ class Main extends React.Component {
             <MessageWrap hidden={!message}>{message}</MessageWrap>
             <ButtonWrap
               onClick={() =>
-                count > 0 ? dispatch(selectSymbols(selectedSymbols)) : null
+                count > 0
+                  ? dispatch(selectSymbols(selectedSymbols)).then(
+                      this.setState({
+                        selectedSymbols: [],
+                      })
+                    )
+                  : null
               }
             >
               <InsertButton inactive={!count} />

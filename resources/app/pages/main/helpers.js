@@ -1,4 +1,4 @@
-import { split, head, uniq, map } from 'ramda'
+import { split, head, uniq, map, groupBy } from 'ramda'
 
 const getFolderName = symbol => {
   const path = split('/', symbol.name)
@@ -6,10 +6,10 @@ const getFolderName = symbol => {
   return folderName
 }
 
-const createFolders = allSymbols => {
+export const createFolders = allSymbols => {
   const allSymbolsFolders = map(getFolderName, allSymbols)
   const filtered = uniq(allSymbolsFolders)
   return filtered
 }
 
-export default createFolders
+export const groupByFolders = symbols => groupBy(getFolderName, symbols)
