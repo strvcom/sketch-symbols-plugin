@@ -38,8 +38,39 @@ class Main extends React.Component {
     dispatch(fetchSymbols())
   }
 
+  handleSelectFolder(folder) {
+    return this.setState({
+      selectedFolder: folder,
+    })
+  }
+
+  handleSelectSymbol(s) {
+    const { selectedSymbols } = this.state
+    if (includes(s.symbolId, selectedSymbols)) {
+      this.setState({
+        selectedSymbols: without(s.symbolId, selectedSymbols),
+      })
+    } else {
+      this.setState({
+        selectedSymbols: append(s.symbolId, selectedSymbols),
+      })
+    }
+  }
+
+  handleDispatch(count) {
+    const { dispatch } = this.props
+    const { selectedSymbols } = this.state
+    if (count > 0) {
+      dispatch(selectSymbols(selectedSymbols)).then(
+        this.setState({
+          selectedSymbols: [],
+        })
+      )
+    }
+  }
+
   render() {
-    const { loading, symbols, dispatch, message } = this.props
+    const { loading, symbols, message } = this.props
     const { selectedSymbols, selectedFolder } = this.state
     const sortedSymbols = sortBy(prop('name'))(symbols)
     const count = length(selectedSymbols)
@@ -54,28 +85,17 @@ class Main extends React.Component {
         <SideBar>
           <FolderList>
             <React.Fragment>
-              <Folder
-                mainFolder
-                onClick={() =>
-                  this.setState({
-                    selectedFolder: '',
-                  })
-                }
-              >
+              <Folder mainFolder onClick={() => this.handleSelectFolder('')}>
                 <SketchDocumentIcon />
                 Document
               </Folder>
-              {folders.map(s => (
+              {folders.map(f => (
                 <Folder
-                  onClick={() =>
-                    this.setState({
-                      selectedFolder: s,
-                    })
-                  }
-                  selected={selectedFolder === s}
+                  onClick={() => this.handleSelectFolder(f)}
+                  selected={selectedFolder === f}
                 >
                   <FolderIcon />
-                  {s}
+                  {f}
                 </Folder>
               ))}
             </React.Fragment>
@@ -88,17 +108,7 @@ class Main extends React.Component {
             <List>
               {selection.map(s => (
                 <SymbolTile
-                  onClick={() => {
-                    if (includes(s.symbolId, selectedSymbols)) {
-                      this.setState({
-                        selectedSymbols: without(s.symbolId, selectedSymbols),
-                      })
-                    } else {
-                      this.setState({
-                        selectedSymbols: append(s.symbolId, selectedSymbols),
-                      })
-                    }
-                  }}
+                  onClick={() => this.handleSelectSymbol(s)}
                   selected={includes(s.symbolId, selectedSymbols)}
                 >
                   {s.name}
@@ -113,17 +123,7 @@ class Main extends React.Component {
               selected
             </CountWrap>
             <MessageWrap hidden={!message}>{message}</MessageWrap>
-            <ButtonWrap
-              onClick={() =>
-                count > 0
-                  ? dispatch(selectSymbols(selectedSymbols)).then(
-                      this.setState({
-                        selectedSymbols: [],
-                      })
-                    )
-                  : null
-              }
-            >
+            <ButtonWrap onClick={() => this.handleDispatch(count)}>
               <InsertButton inactive={!count} />
             </ButtonWrap>
           </BottomBar>
