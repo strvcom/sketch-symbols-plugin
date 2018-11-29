@@ -14,6 +14,8 @@ import {
   FolderList,
   Folder,
   TopFolder,
+  EditWrap,
+  SymbolTileWrap,
 } from './styled'
 import FolderIcon from '../../assets/FolderIcon'
 import InsertButton from '../../components/InsertButton'
@@ -22,6 +24,7 @@ import { createFolders, groupByFolders } from './helpers'
 import NavBar from '../../components/NavBar'
 import BottomBar from '../../components/BottomBar'
 import SymbolIcon from '../../assets/SymbolIcon'
+import EditIcon from '../../assets/EditIcon'
 
 class Main extends React.Component {
   constructor(props) {
@@ -104,13 +107,17 @@ class Main extends React.Component {
           ) : (
             <List>
               {selection.map(s => (
-                <SymbolTile
-                  onClick={() => this.handleSelectSymbol(s)}
+                <SymbolTileWrap
                   selected={includes(s.symbolId, selectedSymbols)}
                 >
-                  <SymbolIcon />
-                  {s.name}
-                </SymbolTile>
+                  <SymbolTile onClick={() => this.handleSelectSymbol(s)}>
+                    <SymbolIcon />
+                    {s.name}
+                  </SymbolTile>
+                  <EditWrap onClick={() => null}>
+                    <EditIcon />
+                  </EditWrap>
+                </SymbolTileWrap>
               ))}
             </List>
           )}

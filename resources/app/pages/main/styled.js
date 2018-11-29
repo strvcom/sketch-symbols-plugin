@@ -1,5 +1,6 @@
 import styled, { css } from 'react-emotion'
 
+/* Main containers */
 export const Container = styled.div`
   display: flex;
   width: 100%;
@@ -25,29 +26,25 @@ export const ListWrap = styled.div`
   width: 100%;
   padding: 72px 32px 72px 302px;
 `
+/* End of main containers */
 
+/* List of symbols */
 export const List = styled.ul`
   display: flex;
   flex-direction: column;
   width: 100%;
 `
 
-export const SymbolTile = styled.li`
+export const SymbolTileWrap = styled.li`
   display: flex;
   align-items: center;
   position: relative;
   width: 100%;
   height: 64px;
-  background-color: #f6f6f6;
   margin-bottom: 8px;
+  background-color: #f6f6f6;
   border: 2px solid #f6f6f6;
   border-radius: 2px;
-  cursor: pointer;
-
-  svg {
-    margin-left: 20px;
-    margin-right: 8px;
-  }
 
   &:hover {
     border: 2px solid #72d1fb;
@@ -60,9 +57,18 @@ export const SymbolTile = styled.li`
     `};
 `
 
-export const Label = styled.p`
-  font-size: 16px;
-  text-align: center;
+export const SymbolTile = styled.li`
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 90%;
+  height: 100%;
+  cursor: pointer;
+
+  svg {
+    margin-left: 20px;
+    margin-right: 8px;
+  }
 `
 
 export const SymbolPath = styled.p`
@@ -74,13 +80,23 @@ export const SymbolPath = styled.p`
   bottom: -22px;
 `
 
-export const ButtonWrap = styled.div`
+export const EditWrap = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
-  height: 72px;
-  margin-right: 32px;
-`
+  justify-content: flex-end;
+  width: 10%;
+  height: 100%;
+  padding-top: 4px;
+  cursor: pointer;
 
+  svg {
+    margin: 0 24px 0 0;
+  }
+`
+/* End of symbol list components */
+
+/* Folder list */
 export const FolderList = styled.ul`
   display: flex;
   flex-direction: column;
@@ -124,4 +140,12 @@ export const TopFolder = styled(Folder)`
   svg {
     margin-left: 24px;
   }
+`
+/* End of folder compoents */
+
+export const ButtonWrap = styled.div`
+  display: flex;
+  align-items: center;
+  height: 72px;
+  margin-right: 32px;
 `
