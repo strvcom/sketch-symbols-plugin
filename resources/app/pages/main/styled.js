@@ -16,20 +16,6 @@ export const SideBar = styled.aside`
   overflow: scroll;
 `
 
-export const BottomBar = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  width: 870px;
-  height: 72px;
-  z-index: 10;
-  background-color: #fff;
-  box-shadow: 0 -10px 20px 0 rgba(0, 0, 0, 0.1);
-`
-
 export const ListWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -89,37 +75,6 @@ export const ButtonWrap = styled.div`
   align-items: center;
   height: 72px;
   margin-right: 32px;
-`
-
-export const CountWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-export const SymbolsCount = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #0880f6;
-  border-radius: 4px;
-  height: 20px;
-  padding: 0 5px;
-  margin-right: 8px;
-  margin-left: 32px;
-  color: #fff;
-`
-
-export const MessageWrap = styled.div`
-  visibility: ${p => (p.hidden ? 'hidden' : 'visible')};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(29, 194, 129, 0.1);
-  height: 32px;
-  padding: 0 16px;
-  border-radius: 4px;
-  color: #1dc281;
 `
 
 export const FolderList = styled.ul`

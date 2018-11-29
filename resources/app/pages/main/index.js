@@ -11,10 +11,6 @@ import {
   SideBar,
   ListWrap,
   ButtonWrap,
-  BottomBar,
-  SymbolsCount,
-  MessageWrap,
-  CountWrap,
   FolderList,
   Folder,
 } from './styled'
@@ -23,6 +19,7 @@ import InsertButton from '../../components/InsertButton'
 import SketchDocumentIcon from '../../assets/SketchDocumentIcon'
 import { createFolders, groupByFolders } from './helpers'
 import NavBar from '../../components/NavBar'
+import BottomBar from '../../components/BottomBar'
 
 class Main extends React.Component {
   constructor(props) {
@@ -84,21 +81,19 @@ class Main extends React.Component {
         <NavBar selectedFolder={selectedFolder} />
         <SideBar>
           <FolderList>
-            <React.Fragment>
-              <Folder mainFolder onClick={() => this.handleSelectFolder('')}>
-                <SketchDocumentIcon />
-                Document
+            <Folder mainFolder onClick={() => this.handleSelectFolder('')}>
+              <SketchDocumentIcon />
+              Document
+            </Folder>
+            {folders.map(f => (
+              <Folder
+                onClick={() => this.handleSelectFolder(f)}
+                selected={selectedFolder === f}
+              >
+                <FolderIcon />
+                {f}
               </Folder>
-              {folders.map(f => (
-                <Folder
-                  onClick={() => this.handleSelectFolder(f)}
-                  selected={selectedFolder === f}
-                >
-                  <FolderIcon />
-                  {f}
-                </Folder>
-              ))}
-            </React.Fragment>
+            ))}
           </FolderList>
         </SideBar>
         <ListWrap>
@@ -116,13 +111,7 @@ class Main extends React.Component {
               ))}
             </List>
           )}
-          <BottomBar>
-            <CountWrap>
-              <SymbolsCount>{count}</SymbolsCount>
-              {count > 1 ? 'Symbols ' : 'Symbol '}
-              selected
-            </CountWrap>
-            <MessageWrap hidden={!message}>{message}</MessageWrap>
+          <BottomBar count={count} message={message}>
             <ButtonWrap onClick={() => this.handleDispatch(count)}>
               <InsertButton inactive={!count} />
             </ButtonWrap>
