@@ -83,7 +83,7 @@ class Main extends React.Component {
 
     return (
       <Container>
-        <NavBar selectedFolder={selectedFolder} />
+        <NavBar selectedFolder={selectedFolder} message={message} />
         <SideBar>
           <FolderList>
             <TopFolder mainFolder onClick={() => this.handleSelectFolder('')}>
@@ -121,7 +121,7 @@ class Main extends React.Component {
               ))}
             </List>
           )}
-          <BottomBar count={count} message={message} active={count}>
+          <BottomBar count={count} active={count}>
             <ButtonWrap onClick={() => this.handleDispatch(count)}>
               <InsertButton inactive={!count} />
             </ButtonWrap>
