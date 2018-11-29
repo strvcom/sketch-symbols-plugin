@@ -1,17 +1,24 @@
-import styled from 'react-emotion'
+import styled, { css } from 'react-emotion'
 
 export const BottomBarWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: fixed;
-  bottom: 0;
+  bottom: -72px;
   right: 0;
   width: 870px;
   height: 72px;
   z-index: 10;
   background-color: #fff;
   box-shadow: 0 -10px 20px 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.5s;
+
+  ${p =>
+    p.active &&
+    css`
+      bottom: 0;
+    `};
 `
 
 export const CountWrap = styled.div`

@@ -35,15 +35,19 @@ export const List = styled.ul`
 export const SymbolTile = styled.li`
   display: flex;
   align-items: center;
-  padding-left: 8px;
   position: relative;
   width: 100%;
-  height: 32px;
+  height: 64px;
   background-color: #f6f6f6;
   margin-bottom: 8px;
-  border: 2px solid #fff;
+  border: 2px solid #f6f6f6;
   border-radius: 2px;
   cursor: pointer;
+
+  svg {
+    margin-left: 20px;
+    margin-right: 8px;
+  }
 
   &:hover {
     border: 2px solid #72d1fb;
@@ -52,7 +56,7 @@ export const SymbolTile = styled.li`
   ${p =>
     p.selected &&
     css`
-      border: 2px solid #d941f1;
+      border: 2px solid #72d1fb;
     `};
 `
 
@@ -78,7 +82,6 @@ export const ButtonWrap = styled.div`
 `
 
 export const FolderList = styled.ul`
-  margin-top: 56px;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -88,7 +91,6 @@ export const Folder = styled.li`
   cursor: pointer;
   display: flex;
   align-items: center;
-  padding-left: 8px;
   position: relative;
   width: 100%;
   height: 32px;
@@ -113,12 +115,13 @@ export const Folder = styled.li`
     margin-right: 8px;
     margin-left: 56px;
   }
+`
 
-  ${p =>
-    p.mainFolder &&
-    css`
-      svg {
-        margin-left: 24px;
-      }
-    `};
+export const TopFolder = styled(Folder)`
+  height: 72px;
+  margin-bottom: 0;
+
+  svg {
+    margin-left: 24px;
+  }
 `

@@ -13,6 +13,7 @@ import {
   ButtonWrap,
   FolderList,
   Folder,
+  TopFolder,
 } from './styled'
 import FolderIcon from '../../assets/FolderIcon'
 import InsertButton from '../../components/InsertButton'
@@ -20,6 +21,7 @@ import SketchDocumentIcon from '../../assets/SketchDocumentIcon'
 import { createFolders, groupByFolders } from './helpers'
 import NavBar from '../../components/NavBar'
 import BottomBar from '../../components/BottomBar'
+import SymbolIcon from '../../assets/SymbolIcon'
 
 class Main extends React.Component {
   constructor(props) {
@@ -81,10 +83,10 @@ class Main extends React.Component {
         <NavBar selectedFolder={selectedFolder} />
         <SideBar>
           <FolderList>
-            <Folder mainFolder onClick={() => this.handleSelectFolder('')}>
+            <TopFolder mainFolder onClick={() => this.handleSelectFolder('')}>
               <SketchDocumentIcon />
               Document
-            </Folder>
+            </TopFolder>
             {folders.map(f => (
               <Folder
                 onClick={() => this.handleSelectFolder(f)}
@@ -106,12 +108,13 @@ class Main extends React.Component {
                   onClick={() => this.handleSelectSymbol(s)}
                   selected={includes(s.symbolId, selectedSymbols)}
                 >
+                  <SymbolIcon />
                   {s.name}
                 </SymbolTile>
               ))}
             </List>
           )}
-          <BottomBar count={count} message={message}>
+          <BottomBar count={count} message={message} active={count}>
             <ButtonWrap onClick={() => this.handleDispatch(count)}>
               <InsertButton inactive={!count} />
             </ButtonWrap>
