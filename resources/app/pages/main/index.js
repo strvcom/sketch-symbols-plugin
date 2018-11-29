@@ -9,10 +9,7 @@ import {
   List,
   SymbolTile,
   SideBar,
-  NavBar,
   ListWrap,
-  SearchWrap,
-  BreadCrums,
   ButtonWrap,
   BottomBar,
   SymbolsCount,
@@ -21,10 +18,11 @@ import {
   FolderList,
   Folder,
 } from './styled'
-import FolderIcon from '../../assets/folder-icon'
-import InsertButton from '../../components/insert-button'
-import SketchDocumentIcon from '../../assets/sketch-document-icon'
+import FolderIcon from '../../assets/FolderIcon'
+import InsertButton from '../../components/InsertButton'
+import SketchDocumentIcon from '../../assets/SketchDocumentIcon'
 import { createFolders, groupByFolders } from './helpers'
+import NavBar from '../../components/NavBar'
 
 class Main extends React.Component {
   constructor(props) {
@@ -52,13 +50,7 @@ class Main extends React.Component {
 
     return (
       <Container>
-        <NavBar>
-          <SearchWrap />
-          <BreadCrums>
-            <FolderIcon />
-            {selectedFolder ? `${selectedFolder} ...` : 'All symbols ...'}
-          </BreadCrums>
-        </NavBar>
+        <NavBar selectedFolder={selectedFolder} />
         <SideBar>
           <FolderList>
             <React.Fragment>

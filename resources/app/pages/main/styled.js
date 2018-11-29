@@ -16,17 +16,6 @@ export const SideBar = styled.aside`
   overflow: scroll;
 `
 
-export const NavBar = styled.div`
-  display: flex;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 48px;
-  z-index: 10;
-  background-color: #fff;
-`
-
 export const BottomBar = styled.div`
   display: flex;
   align-items: center;
@@ -39,15 +28,6 @@ export const BottomBar = styled.div`
   z-index: 10;
   background-color: #fff;
   box-shadow: 0 -10px 20px 0 rgba(0, 0, 0, 0.1);
-`
-
-export const SearchWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 270px;
-  height: 100%;
-  background-color: #f6f6f6;
 `
 
 export const ListWrap = styled.div`
@@ -102,17 +82,6 @@ export const SymbolPath = styled.p`
   left: 0;
   right: 0;
   bottom: -22px;
-`
-
-export const BreadCrums = styled.div`
-  font-size: 14px;
-  margin-left: 32px;
-  display: flex;
-  align-items: center;
-
-  svg {
-    margin-right: 8px;
-  }
 `
 
 export const ButtonWrap = styled.div`
