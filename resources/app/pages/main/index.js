@@ -2,32 +2,33 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { append, contains, without, sortBy, prop, length } from 'ramda'
+import { append, includes, without, sortBy, prop, length, path } from 'ramda'
 import { fetchSymbols, selectSymbols } from '../../redux/reducers/symbols'
 import {
   Container,
   List,
   SymbolTile,
   SideBar,
-  NavBar,
   ListWrap,
-  SearchWrap,
-  BreadCrums,
   ButtonWrap,
-  BottomBar,
-  SymbolsCount,
-  MessageWrap,
-  CountWrap,
+  FolderList,
+  Folder,
+  TopFolder,
 } from './styled'
-import FolderIcon from '../../assets/folder-icon'
-import InsertButton from '../../components/insert-button'
-// import formatName from './helpers'
+import FolderIcon from '../../assets/FolderIcon'
+import InsertButton from '../../components/InsertButton'
+import SketchDocumentIcon from '../../assets/SketchDocumentIcon'
+import { createFolders, groupByFolders } from './helpers'
+import NavBar from '../../components/NavBar'
+import BottomBar from '../../components/BottomBar'
+import SymbolIcon from '../../assets/SymbolIcon'
 
 class Main extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       selectedSymbols: [],
+      selectedFolder: '',
     }
   }
 
@@ -36,58 +37,85 @@ class Main extends React.Component {
     dispatch(fetchSymbols())
   }
 
-  render() {
-    const { loading, symbols, dispatch, message } = this.props
+  handleSelectFolder(folder) {
+    return this.setState({
+      selectedFolder: folder,
+    })
+  }
+
+  handleSelectSymbol(s) {
     const { selectedSymbols } = this.state
+    if (includes(s.symbolId, selectedSymbols)) {
+      this.setState({
+        selectedSymbols: without(s.symbolId, selectedSymbols),
+      })
+    } else {
+      this.setState({
+        selectedSymbols: append(s.symbolId, selectedSymbols),
+      })
+    }
+  }
+
+  handleDispatch(count) {
+    const { dispatch } = this.props
+    const { selectedSymbols } = this.state
+    if (count > 0) {
+      dispatch(selectSymbols(selectedSymbols)).then(
+        this.setState({
+          selectedSymbols: [],
+        })
+      )
+    }
+  }
+
+  render() {
+    const { loading, symbols, message } = this.props
+    const { selectedSymbols, selectedFolder } = this.state
     const sortedSymbols = sortBy(prop('name'))(symbols)
     const count = length(selectedSymbols)
+    const folders = createFolders(sortedSymbols)
+    const groups = groupByFolders(sortedSymbols)
+    const selectedGroup = path([selectedFolder], groups)
+    const selection = selectedGroup || sortedSymbols
 
     return (
       <Container>
-        <NavBar>
-          <SearchWrap />
-          <BreadCrums>
-            <FolderIcon />
-            All symbols ...
-          </BreadCrums>
-        </NavBar>
-        <SideBar />
+        <NavBar selectedFolder={selectedFolder} />
+        <SideBar>
+          <FolderList>
+            <TopFolder mainFolder onClick={() => this.handleSelectFolder('')}>
+              <SketchDocumentIcon />
+              Document
+            </TopFolder>
+            {folders.map(f => (
+              <Folder
+                onClick={() => this.handleSelectFolder(f)}
+                selected={selectedFolder === f}
+              >
+                <FolderIcon />
+                {f}
+              </Folder>
+            ))}
+          </FolderList>
+        </SideBar>
         <ListWrap>
           {loading ? (
             <div>Loading...</div>
           ) : (
             <List>
-              {sortedSymbols.map(s => (
+              {selection.map(s => (
                 <SymbolTile
-                  onClick={() => {
-                    if (contains(s.symbolId, selectedSymbols)) {
-                      this.setState({
-                        selectedSymbols: without(s.symbolId, selectedSymbols),
-                      })
-                    } else {
-                      this.setState({
-                        selectedSymbols: append(s.symbolId, selectedSymbols),
-                      })
-                    }
-                  }}
-                  selected={contains(s.symbolId, selectedSymbols)}
+                  onClick={() => this.handleSelectSymbol(s)}
+                  selected={includes(s.symbolId, selectedSymbols)}
                 >
+                  <SymbolIcon />
                   {s.name}
                 </SymbolTile>
               ))}
             </List>
           )}
-          <BottomBar>
-            <CountWrap>
-              <SymbolsCount>{count}</SymbolsCount>
-              Symbols selected
-            </CountWrap>
-            <MessageWrap hidden={!message}>{message}</MessageWrap>
-            <ButtonWrap
-              onClick={() =>
-                count > 0 ? dispatch(selectSymbols(selectedSymbols)) : null
-              }
-            >
+          <BottomBar count={count} message={message} active={count}>
+            <ButtonWrap onClick={() => this.handleDispatch(count)}>
               <InsertButton inactive={!count} />
             </ButtonWrap>
           </BottomBar>

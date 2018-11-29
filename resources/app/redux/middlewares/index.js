@@ -1,4 +1,4 @@
-import sketchPlugin from './sketch-plugin'
+import sketchPlugin from './sketchPlugin'
 
 const middlewares = [sketchPlugin]
 
