@@ -8,23 +8,18 @@ import {
   Container,
   List,
   SymbolTile,
-  SideBar,
   ListWrap,
   ButtonWrap,
-  FolderList,
-  Folder,
-  TopFolder,
   EditWrap,
   SymbolTileWrap,
 } from './styled'
-import FolderIcon from '../../assets/FolderIcon'
 import InsertButton from '../../components/InsertButton'
-import SketchDocumentIcon from '../../assets/SketchDocumentIcon'
 import { createFolders, groupByFolders } from './helpers'
 import NavBar from '../../components/NavBar'
 import BottomBar from '../../components/BottomBar'
 import SymbolIcon from '../../assets/SymbolIcon'
 import EditIcon from '../../assets/EditIcon'
+import SideBar from '../../components/SideBar'
 
 class Main extends React.Component {
   constructor(props) {
@@ -35,18 +30,17 @@ class Main extends React.Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     const { dispatch } = this.props
     dispatch(fetchSymbols())
   }
 
-  handleSelectFolder(folder) {
-    return this.setState({
+  handleSelectFolder = folder =>
+    this.setState({
       selectedFolder: folder,
     })
-  }
 
-  handleSelectSymbol(s) {
+  handleSelectSymbol = s => {
     const { selectedSymbols } = this.state
     if (includes(s.symbolId, selectedSymbols)) {
       this.setState({
@@ -59,7 +53,7 @@ class Main extends React.Component {
     }
   }
 
-  handleDispatch(count) {
+  handleDispatch = count => {
     const { dispatch } = this.props
     const { selectedSymbols } = this.state
     if (count > 0) {
@@ -84,23 +78,11 @@ class Main extends React.Component {
     return (
       <Container>
         <NavBar selectedFolder={selectedFolder} message={message} />
-        <SideBar>
-          <FolderList>
-            <TopFolder mainFolder onClick={() => this.handleSelectFolder('')}>
-              <SketchDocumentIcon />
-              Document
-            </TopFolder>
-            {folders.map(f => (
-              <Folder
-                onClick={() => this.handleSelectFolder(f)}
-                selected={selectedFolder === f}
-              >
-                <FolderIcon />
-                {f}
-              </Folder>
-            ))}
-          </FolderList>
-        </SideBar>
+        <SideBar
+          onSelectFolder={this.handleSelectFolder}
+          folders={folders}
+          selectedFolder={selectedFolder}
+        />
         <ListWrap>
           {loading ? (
             <div>Loading...</div>
