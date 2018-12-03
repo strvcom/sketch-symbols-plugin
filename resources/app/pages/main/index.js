@@ -4,22 +4,13 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { append, includes, without, sortBy, prop, length, path } from 'ramda'
 import { fetchSymbols, selectSymbols } from '../../redux/reducers/symbols'
-import {
-  Container,
-  List,
-  SymbolTile,
-  ListWrap,
-  ButtonWrap,
-  EditWrap,
-  SymbolTileWrap,
-} from './styled'
+import { Container, ButtonWrap } from './styled'
 import InsertButton from '../../components/InsertButton'
 import { createFolders, groupByFolders } from './helpers'
 import NavBar from '../../components/NavBar'
 import BottomBar from '../../components/BottomBar'
-import SymbolIcon from '../../assets/SymbolIcon'
-import EditIcon from '../../assets/EditIcon'
 import SideBar from '../../components/SideBar'
+import SymbolsList from '../../components/SymbolsList'
 
 class Main extends React.Component {
   constructor(props) {
@@ -83,32 +74,18 @@ class Main extends React.Component {
           folders={folders}
           selectedFolder={selectedFolder}
         />
-        <ListWrap>
-          {loading ? (
-            <div>Loading...</div>
-          ) : (
-            <List>
-              {selection.map(s => (
-                <SymbolTileWrap
-                  selected={includes(s.symbolId, selectedSymbols)}
-                >
-                  <SymbolTile onClick={() => this.handleSelectSymbol(s)}>
-                    <SymbolIcon />
-                    {s.name}
-                  </SymbolTile>
-                  <EditWrap onClick={() => null}>
-                    <EditIcon />
-                  </EditWrap>
-                </SymbolTileWrap>
-              ))}
-            </List>
-          )}
+        <SymbolsList
+          loading={loading}
+          selection={selection}
+          selectedSymbols={selectedSymbols}
+          handleSelectSymbol={this.handleSelectSymbol}
+        >
           <BottomBar count={count} active={count}>
             <ButtonWrap onClick={() => this.handleDispatch(count)}>
               <InsertButton inactive={!count} />
             </ButtonWrap>
           </BottomBar>
-        </ListWrap>
+        </SymbolsList>
       </Container>
     )
   }
