@@ -11,6 +11,7 @@ import NavBar from '../../components/NavBar'
 import BottomBar from '../../components/BottomBar'
 import SideBar from '../../components/SideBar'
 import SymbolsList from '../../components/SymbolsList'
+import Modal from '../../components/Modal'
 
 class Main extends React.Component {
   constructor(props) {
@@ -18,6 +19,8 @@ class Main extends React.Component {
     this.state = {
       selectedSymbols: [],
       selectedFolder: '',
+      modal: false,
+      renameSymbol: '',
     }
   }
 
@@ -56,9 +59,19 @@ class Main extends React.Component {
     }
   }
 
+  handleShowModal = symbol =>
+    this.setState({
+      renameSymbol: symbol,
+      modal: true,
+    })
+
+  handleCloseModal = () => this.setState({ modal: false })
+
+  handleChangeValue = e => this.setState({ renameSymbol: e.target.value })
+
   render() {
     const { loading, symbols, message } = this.props
-    const { selectedSymbols, selectedFolder } = this.state
+    const { selectedSymbols, selectedFolder, modal, renameSymbol } = this.state
     const sortedSymbols = sortBy(prop('name'))(symbols)
     const count = length(selectedSymbols)
     const folders = createFolders(sortedSymbols)
@@ -68,6 +81,12 @@ class Main extends React.Component {
 
     return (
       <Container>
+        <Modal
+          show={modal}
+          handleShowModal={this.handleCloseModal}
+          value={renameSymbol}
+          onChangeValue={this.handleChangeValue}
+        />
         <NavBar selectedFolder={selectedFolder} message={message} />
         <SideBar
           onSelectFolder={this.handleSelectFolder}
@@ -79,6 +98,7 @@ class Main extends React.Component {
           selection={selection}
           selectedSymbols={selectedSymbols}
           handleSelectSymbol={this.handleSelectSymbol}
+          handleShowModal={this.handleShowModal}
         >
           <BottomBar count={count} active={count}>
             <ButtonWrap onClick={() => this.handleDispatch(count)}>

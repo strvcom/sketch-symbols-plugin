@@ -11,6 +11,7 @@ const SymbolsList = ({
   selectedSymbols,
   children,
   handleSelectSymbol,
+  handleShowModal,
 }) => (
   <ListWrap>
     {loading ? (
@@ -23,7 +24,7 @@ const SymbolsList = ({
               <SymbolIcon />
               {s.name}
             </SymbolTile>
-            <EditWrap onClick={() => null}>
+            <EditWrap onClick={() => handleShowModal(s.name)}>
               <EditIcon />
             </EditWrap>
           </SymbolTileWrap>
@@ -40,6 +41,7 @@ SymbolsList.propTypes = {
   handleSelectSymbol: PropTypes.func.isRequired,
   selection: PropTypes.arrayOf.isRequired,
   selectedSymbols: PropTypes.arrayOf.isRequired,
+  handleShowModal: PropTypes.func,
 }
 
 export default SymbolsList
