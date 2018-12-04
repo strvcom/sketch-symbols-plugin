@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import {
   OverlayWrap,
   ModalWrap,
@@ -7,6 +8,7 @@ import {
   ModalContent,
   Label,
   Input,
+  ButtonRow,
   Button,
 } from './styled'
 
@@ -17,7 +19,12 @@ const Modal = ({ show, handleShowModal, value, onChangeValue }) => (
       <ModalContent>
         <Label>Symbol Name</Label>
         <Input type="text" value={value} onChange={onChangeValue} />
-        <Button onClick={() => handleShowModal()}>Cancel</Button>
+        <ButtonRow>
+          <Button onClick={() => handleShowModal()}>Cancel</Button>
+          <Button primary onClick={() => handleShowModal()}>
+            Rename
+          </Button>
+        </ButtonRow>
       </ModalContent>
     </ModalWrap>
   </OverlayWrap>
@@ -30,6 +37,8 @@ Modal.propTypes = {
   onChangeValue: PropTypes.func,
 }
 
-export default Modal
+const mapStateToProps = state => ({
+  loading: state.symbols.loading,
+})
 
-// onClick={() => handleShowModal()}
+export default connect(mapStateToProps)(Modal)

@@ -57,6 +57,13 @@ export const Input = styled.input`
   padding-left: 16px;
   font-size: 14px;
   margin-bottom: 32px;
+  user-select: auto;
+`
+
+export const ButtonRow = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
 `
 
 export const Button = styled.button`
@@ -65,9 +72,11 @@ export const Button = styled.button`
   align-items: center;
   width: 129px;
   height: 40px;
-  background-color: #f1f2f3;
+  background-color: ${p => (p.primary ? '#0880F6' : '#f1f2f3')};
   border: none;
   border-radius: 4px;
   text-transform: uppercase;
+  color: ${p => (p.primary ? '#fff' : 'black')};
   font-size: 12px;
+  margin-left: 8px;
 `
