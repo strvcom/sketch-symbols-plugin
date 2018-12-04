@@ -14,7 +14,6 @@ import {
 
 const Modal = ({
   show,
-  id,
   value,
   onChangeValue,
   handleRename,
@@ -25,7 +24,6 @@ const Modal = ({
       <ModalHeader>Rename Symbol</ModalHeader>
       <ModalContent>
         <Label>Symbol Name</Label>
-        <Label>{id}</Label>
         <Input type="text" value={value} onChange={onChangeValue} />
         <ButtonRow>
           <Button onClick={() => handleCloseModal()}>Cancel</Button>
@@ -44,7 +42,6 @@ Modal.propTypes = {
   onChangeValue: PropTypes.func,
   show: PropTypes.bool.isRequired,
   value: PropTypes.string,
-  id: PropTypes.string,
 }
 
 const mapStateToProps = state => ({

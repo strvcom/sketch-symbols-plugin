@@ -92,13 +92,7 @@ class Main extends React.Component {
 
   render() {
     const { loading, symbols, message } = this.props
-    const {
-      selectedSymbols,
-      selectedFolder,
-      modal,
-      newSymbolName,
-      newSymbolId,
-    } = this.state
+    const { selectedSymbols, selectedFolder, modal, newSymbolName } = this.state
     const sortedSymbols = sortBy(prop('name'))(symbols)
     const count = length(selectedSymbols)
     const folders = createFolders(sortedSymbols)
@@ -111,7 +105,6 @@ class Main extends React.Component {
         <Modal
           show={modal}
           value={newSymbolName}
-          id={newSymbolId}
           onChangeValue={this.handleChangeValue}
           handleRename={this.handleDispatchRename}
           handleCloseModal={this.handleCloseModal}
