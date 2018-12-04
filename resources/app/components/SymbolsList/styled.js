@@ -74,7 +74,15 @@ export const EditWrap = styled.div`
   cursor: pointer;
 
   svg {
+    transition: opacity 0.1s;
+    opacity: 0.2;
     margin: 0 24px 0 0;
+  }
+
+  &:hover {
+    svg {
+      opacity: 1;
+    }
   }
 `
 /* End of symbol list components */
