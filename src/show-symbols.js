@@ -6,6 +6,7 @@ import sketch from 'sketch' // eslint-disable-line
 import { SET_SYMBOLS, SUCCESS } from '../shared-actions'
 import getAllSymbols from './get-all-symbols'
 import insertSymbols from './insert-symbols'
+import renameSymbol from './rename-symbol'
 
 export default function() {
   // default WebView settings
@@ -65,6 +66,19 @@ export default function() {
   // function to create new symbol instance
   webContents.on('insertSymbol', symbols => {
     const message = insertSymbols(symbols)
+
+    webContents
+      .executeJavaScript(
+        `sketchBridge(${JSON.stringify({
+          name: SUCCESS,
+          payload: message,
+        })})`
+      )
+      .catch(console.error)
+  })
+
+  webContents.on('symbolRename', symbol => {
+    const message = renameSymbol(symbol)
 
     webContents
       .executeJavaScript(

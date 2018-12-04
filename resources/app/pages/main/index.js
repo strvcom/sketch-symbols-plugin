@@ -3,7 +3,11 @@ import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { append, includes, without, sortBy, prop, length, path } from 'ramda'
-import { fetchSymbols, selectSymbols } from '../../redux/reducers/symbols'
+import {
+  fetchSymbols,
+  selectSymbols,
+  renameSymbol,
+} from '../../redux/reducers/symbols'
 import { Container, ButtonWrap } from './styled'
 import InsertButton from '../../components/InsertButton'
 import { createFolders, groupByFolders } from './helpers'
@@ -20,7 +24,8 @@ class Main extends React.Component {
       selectedSymbols: [],
       selectedFolder: '',
       modal: false,
-      renameSymbol: '',
+      newSymbolName: '',
+      newSymbolId: '',
     }
   }
 
@@ -47,7 +52,7 @@ class Main extends React.Component {
     }
   }
 
-  handleDispatch = count => {
+  handleDispatchInsert = count => {
     const { dispatch } = this.props
     const { selectedSymbols } = this.state
     if (count > 0) {
@@ -61,17 +66,37 @@ class Main extends React.Component {
 
   handleShowModal = symbol =>
     this.setState({
-      renameSymbol: symbol,
+      newSymbolName: symbol.name,
+      newSymbolId: symbol.symbolId,
       modal: true,
     })
 
   handleCloseModal = () => this.setState({ modal: false })
 
-  handleChangeValue = e => this.setState({ renameSymbol: e.target.value })
+  handleChangeValue = e =>
+    this.setState({
+      newSymbolName: e.target.value,
+    })
+
+  handleDispatchRename = () => {
+    const { dispatch } = this.props
+    const { newSymbolName, newSymbolId } = this.state
+    const symbolToModify = {
+      name: newSymbolName,
+      symbolId: newSymbolId,
+    }
+    dispatch(renameSymbol(symbolToModify)).then(dispatch(fetchSymbols()))
+  }
 
   render() {
     const { loading, symbols, message } = this.props
-    const { selectedSymbols, selectedFolder, modal, renameSymbol } = this.state
+    const {
+      selectedSymbols,
+      selectedFolder,
+      modal,
+      newSymbolName,
+      newSymbolId,
+    } = this.state
     const sortedSymbols = sortBy(prop('name'))(symbols)
     const count = length(selectedSymbols)
     const folders = createFolders(sortedSymbols)
@@ -84,8 +109,10 @@ class Main extends React.Component {
         <Modal
           show={modal}
           handleShowModal={this.handleCloseModal}
-          value={renameSymbol}
+          value={newSymbolName}
+          id={newSymbolId}
           onChangeValue={this.handleChangeValue}
+          handleRename={this.handleDispatchRename}
         />
         <NavBar selectedFolder={selectedFolder} message={message} />
         <SideBar
@@ -101,7 +128,7 @@ class Main extends React.Component {
           handleShowModal={this.handleShowModal}
         >
           <BottomBar count={count} active={count}>
-            <ButtonWrap onClick={() => this.handleDispatch(count)}>
+            <ButtonWrap onClick={() => this.handleDispatchInsert(count)}>
               <InsertButton inactive={!count} />
             </ButtonWrap>
           </BottomBar>

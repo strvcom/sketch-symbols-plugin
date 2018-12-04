@@ -24,7 +24,7 @@ const SymbolsList = ({
               <SymbolIcon />
               {s.name}
             </SymbolTile>
-            <EditWrap onClick={() => handleShowModal(s.name)}>
+            <EditWrap onClick={() => handleShowModal(s)}>
               <EditIcon />
             </EditWrap>
           </SymbolTileWrap>
