@@ -3,25 +3,19 @@ import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { append, includes, without, sortBy, prop, length, path } from 'ramda'
-import { fetchSymbols, selectSymbols } from '../../redux/reducers/symbols'
 import {
-  Container,
-  List,
-  SymbolTile,
-  SideBar,
-  ListWrap,
-  ButtonWrap,
-  FolderList,
-  Folder,
-  TopFolder,
-} from './styled'
-import FolderIcon from '../../assets/FolderIcon'
+  fetchSymbols,
+  selectSymbols,
+  renameSymbol,
+} from '../../redux/reducers/symbols'
+import { Container, ButtonWrap } from './styled'
 import InsertButton from '../../components/InsertButton'
-import SketchDocumentIcon from '../../assets/SketchDocumentIcon'
 import { createFolders, groupByFolders } from './helpers'
 import NavBar from '../../components/NavBar'
 import BottomBar from '../../components/BottomBar'
-import SymbolIcon from '../../assets/SymbolIcon'
+import SideBar from '../../components/SideBar'
+import SymbolsList from '../../components/SymbolsList'
+import Modal from '../../components/Modal'
 
 class Main extends React.Component {
   constructor(props) {
@@ -29,21 +23,23 @@ class Main extends React.Component {
     this.state = {
       selectedSymbols: [],
       selectedFolder: '',
+      modal: false,
+      newSymbolName: '',
+      newSymbolId: '',
     }
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     const { dispatch } = this.props
     dispatch(fetchSymbols())
   }
 
-  handleSelectFolder(folder) {
-    return this.setState({
+  handleSelectFolder = folder =>
+    this.setState({
       selectedFolder: folder,
     })
-  }
 
-  handleSelectSymbol(s) {
+  handleSelectSymbol = s => {
     const { selectedSymbols } = this.state
     if (includes(s.symbolId, selectedSymbols)) {
       this.setState({
@@ -56,7 +52,7 @@ class Main extends React.Component {
     }
   }
 
-  handleDispatch(count) {
+  handleDispatchInsert = count => {
     const { dispatch } = this.props
     const { selectedSymbols } = this.state
     if (count > 0) {
@@ -68,9 +64,35 @@ class Main extends React.Component {
     }
   }
 
+  handleShowModal = symbol =>
+    this.setState({
+      newSymbolName: symbol.name,
+      newSymbolId: symbol.symbolId,
+      modal: true,
+    })
+
+  handleCloseModal = () => {
+    this.setState({ modal: false })
+  }
+
+  handleChangeValue = e =>
+    this.setState({
+      newSymbolName: e.target.value,
+    })
+
+  handleDispatchRename = () => {
+    const { dispatch } = this.props
+    const { newSymbolName, newSymbolId } = this.state
+    const symbolToModify = {
+      name: newSymbolName,
+      symbolId: newSymbolId,
+    }
+    dispatch(renameSymbol(symbolToModify)).then(dispatch(fetchSymbols()))
+  }
+
   render() {
     const { loading, symbols, message } = this.props
-    const { selectedSymbols, selectedFolder } = this.state
+    const { selectedSymbols, selectedFolder, modal, newSymbolName } = this.state
     const sortedSymbols = sortBy(prop('name'))(symbols)
     const count = length(selectedSymbols)
     const folders = createFolders(sortedSymbols)
@@ -80,46 +102,32 @@ class Main extends React.Component {
 
     return (
       <Container>
-        <NavBar selectedFolder={selectedFolder} />
-        <SideBar>
-          <FolderList>
-            <TopFolder mainFolder onClick={() => this.handleSelectFolder('')}>
-              <SketchDocumentIcon />
-              Document
-            </TopFolder>
-            {folders.map(f => (
-              <Folder
-                onClick={() => this.handleSelectFolder(f)}
-                selected={selectedFolder === f}
-              >
-                <FolderIcon />
-                {f}
-              </Folder>
-            ))}
-          </FolderList>
-        </SideBar>
-        <ListWrap>
-          {loading ? (
-            <div>Loading...</div>
-          ) : (
-            <List>
-              {selection.map(s => (
-                <SymbolTile
-                  onClick={() => this.handleSelectSymbol(s)}
-                  selected={includes(s.symbolId, selectedSymbols)}
-                >
-                  <SymbolIcon />
-                  {s.name}
-                </SymbolTile>
-              ))}
-            </List>
-          )}
-          <BottomBar count={count} message={message} active={count}>
-            <ButtonWrap onClick={() => this.handleDispatch(count)}>
+        <Modal
+          show={modal}
+          value={newSymbolName}
+          onChangeValue={this.handleChangeValue}
+          handleRename={this.handleDispatchRename}
+          handleCloseModal={this.handleCloseModal}
+        />
+        <NavBar selectedFolder={selectedFolder} message={message} />
+        <SideBar
+          onSelectFolder={this.handleSelectFolder}
+          folders={folders}
+          selectedFolder={selectedFolder}
+        />
+        <SymbolsList
+          loading={loading}
+          selection={selection}
+          selectedSymbols={selectedSymbols}
+          handleSelectSymbol={this.handleSelectSymbol}
+          handleShowModal={this.handleShowModal}
+        >
+          <BottomBar count={count} active={count}>
+            <ButtonWrap onClick={() => this.handleDispatchInsert(count)}>
               <InsertButton inactive={!count} />
             </ButtonWrap>
           </BottomBar>
-        </ListWrap>
+        </SymbolsList>
       </Container>
     )
   }

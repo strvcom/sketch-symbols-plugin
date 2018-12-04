@@ -34,12 +34,14 @@
     "depcheck": "depcheck"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/standalone": "^7.1.0",
     "@skpm/builder": "^0.5.10",
     "@skpm/child_process": "^0.2.4",
     "@skpm/extract-loader": "^2.0.2",
     "@skpm/fs": "^0.2.0",
     "@skpm/os": "^0.1.1",
+    "babel-eslint": "^10.0.1",
     "babel-plugin-emotion": "^9.2.11",
     "cocoascript-class": "^0.1.2",
     "codemirror": "^5.40.2",

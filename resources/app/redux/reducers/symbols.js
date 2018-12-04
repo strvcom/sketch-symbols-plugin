@@ -2,6 +2,7 @@ import { SET_SYMBOLS, SUCCESS } from '../../../../shared-actions'
 
 const FETCH_SYMBOLS = 'symbols/FETCH_SYMBOLS'
 const SELECT_SYMBOLS = 'symbols/SELECT_SYMBOLS'
+const RENAME_SYMBOL = 'symbols/RENAME_SYMBOL'
 
 const initialState = {
   loading: false,
@@ -46,6 +47,13 @@ export const setSuccess = message => ({
   type: SUCCESS,
   payload: {
     message,
+  },
+})
+
+export const renameSymbol = symbol => ({
+  type: RENAME_SYMBOL,
+  meta: {
+    sketch: ['symbolRename', symbol],
   },
 })
 

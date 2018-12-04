@@ -40,18 +40,6 @@ export const SymbolsCount = styled.div`
   color: #fff;
 `
 
-export const MessageWrap = styled.div`
-  visibility: ${p => (p.hidden ? 'hidden' : 'visible')};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(29, 194, 129, 0.1);
-  height: 32px;
-  padding: 0 16px;
-  border-radius: 4px;
-  color: #1dc281;
-`
-
 export const ButtonWrap = styled.div`
   display: flex;
   align-items: center;
