@@ -66,7 +66,7 @@ export const ButtonRow = styled.div`
   width: 100%;
 `
 
-export const Button = styled.button`
+export const Button = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -79,4 +79,5 @@ export const Button = styled.button`
   color: ${p => (p.primary ? '#fff' : 'black')};
   font-size: 12px;
   margin-left: 8px;
+  cursor: pointer;
 `

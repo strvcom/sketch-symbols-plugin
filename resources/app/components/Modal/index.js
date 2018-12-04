@@ -14,11 +14,11 @@ import {
 
 const Modal = ({
   show,
-  handleShowModal,
+  id,
   value,
   onChangeValue,
   handleRename,
-  id,
+  handleCloseModal,
 }) => (
   <OverlayWrap show={show}>
     <ModalWrap>
@@ -28,7 +28,7 @@ const Modal = ({
         <Label>{id}</Label>
         <Input type="text" value={value} onChange={onChangeValue} />
         <ButtonRow>
-          <Button onClick={() => handleShowModal()}>Cancel</Button>
+          <Button onClick={() => handleCloseModal()}>Cancel</Button>
           <Button primary onClick={() => handleRename()}>
             Rename
           </Button>
@@ -39,11 +39,11 @@ const Modal = ({
 )
 
 Modal.propTypes = {
-  show: PropTypes.bool.isRequired,
-  handleShowModal: PropTypes.func.isRequired,
+  handleCloseModal: PropTypes.func.isRequired,
   handleRename: PropTypes.func.isRequired,
-  value: PropTypes.string,
   onChangeValue: PropTypes.func,
+  show: PropTypes.bool.isRequired,
+  value: PropTypes.string,
   id: PropTypes.string,
 }
 

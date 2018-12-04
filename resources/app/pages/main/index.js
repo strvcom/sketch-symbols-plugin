@@ -71,7 +71,9 @@ class Main extends React.Component {
       modal: true,
     })
 
-  handleCloseModal = () => this.setState({ modal: false })
+  handleCloseModal = () => {
+    this.setState({ modal: false })
+  }
 
   handleChangeValue = e =>
     this.setState({
@@ -108,11 +110,11 @@ class Main extends React.Component {
       <Container>
         <Modal
           show={modal}
-          handleShowModal={this.handleCloseModal}
           value={newSymbolName}
           id={newSymbolId}
           onChangeValue={this.handleChangeValue}
           handleRename={this.handleDispatchRename}
+          handleCloseModal={this.handleCloseModal}
         />
         <NavBar selectedFolder={selectedFolder} message={message} />
         <SideBar
