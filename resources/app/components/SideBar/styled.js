@@ -17,6 +17,16 @@ export const FolderList = styled.ul`
   width: 100%;
 `
 
+export const SubFolderList = styled(FolderList)`
+  display: none;
+
+  ${p =>
+    p.subSelected &&
+    css`
+      display: flex;
+    `};
+`
+
 export const Folder = styled.li`
   cursor: pointer;
   display: flex;
@@ -26,9 +36,26 @@ export const Folder = styled.li`
   height: 32px;
   margin-bottom: 8px;
 
+  p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   &:hover {
     background-color: rgba(52, 53, 54, 0.05);
   }
+
+  ${p =>
+    p.subSelected &&
+    css`
+      background-color: rgba(8, 128, 246, 0.05);
+      color: #0880f6;
+
+      &:hover {
+        background-color: rgba(52, 53, 54, 0.05);
+      }
+    `};
 
   ${p =>
     p.selected &&

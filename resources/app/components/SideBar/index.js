@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { toPairs, head, keys } from 'ramda'
+import { toPairs, head, keys, startsWith } from 'ramda'
 import {
   SideBarWrap,
   FolderList,
   TopFolder,
   Folder,
   FirstInner,
+  SubFolderList,
 } from './styled'
 import SketchDocumentIcon from '../../assets/SketchDocumentIcon'
 import FolderIcon from '../../assets/FolderIcon'
@@ -22,19 +23,25 @@ const SideBar = ({ onSelectFolder, folders, selectedFolder }) => (
         <React.Fragment>
           <Folder
             onClick={() => onSelectFolder(head(f))}
-            selected={selectedFolder === head(f)}
+            selected={
+              startsWith(head(f), selectedFolder) && selectedFolder === head(f)
+            }
+            subSelected={startsWith(head(f), selectedFolder)}
           >
             <FolderIcon />
-            {head(f)}
+            <p>{head(f)}</p>
           </Folder>
-          <FolderList>
+          <SubFolderList subSelected={startsWith(head(f), selectedFolder)}>
             {keys(f[1]).map(inner => (
-              <FirstInner onClick={() => onSelectFolder(`${head(f)}/${inner}`)}>
+              <FirstInner
+                onClick={() => onSelectFolder(`${head(f)}/${inner}`)}
+                selected={startsWith(`${head(f)}/${inner}`, selectedFolder)}
+              >
                 <FolderIcon />
-                {inner}
+                <p>{inner}</p>
               </FirstInner>
             ))}
-          </FolderList>
+          </SubFolderList>
         </React.Fragment>
       ))}
     </FolderList>
