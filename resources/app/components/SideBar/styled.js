@@ -55,4 +55,10 @@ export const TopFolder = styled(Folder)`
     margin-left: 24px;
   }
 `
+
+export const FirstInner = styled(Folder)`
+  svg {
+    margin-left: 72px;
+  }
+`
 /* End of folder components */
