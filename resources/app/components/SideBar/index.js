@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { toPairs, head, keys, startsWith } from 'ramda'
+import { toPairs, head, keys, startsWith, includes } from 'ramda'
 import {
   SideBarWrap,
   FolderList,
@@ -8,11 +8,18 @@ import {
   Folder,
   FirstInner,
   SubFolderList,
+  StatusDot,
 } from './styled'
 import SketchDocumentIcon from '../../assets/SketchDocumentIcon'
 import FolderIcon from '../../assets/FolderIcon'
+import { getTopFolders, getInnerFolders } from './helpers'
 
-const SideBar = ({ onSelectFolder, folders, selectedFolder }) => (
+const SideBar = ({
+  onSelectFolder,
+  folders,
+  selectedFolder,
+  selectedSymbols,
+}) => (
   <SideBarWrap>
     <FolderList>
       <TopFolder onClick={() => onSelectFolder('')}>
@@ -28,6 +35,12 @@ const SideBar = ({ onSelectFolder, folders, selectedFolder }) => (
             }
             subSelected={startsWith(head(f), selectedFolder)}
           >
+            <StatusDot
+              hasSelectedSymbol={includes(
+                head(f),
+                getTopFolders(selectedSymbols)
+              )}
+            />
             <FolderIcon />
             <p>{head(f)}</p>
           </Folder>
@@ -37,6 +50,12 @@ const SideBar = ({ onSelectFolder, folders, selectedFolder }) => (
                 onClick={() => onSelectFolder(`${head(f)}/${inner}`)}
                 selected={startsWith(`${head(f)}/${inner}`, selectedFolder)}
               >
+                <StatusDot
+                  hasSelectedSymbol={includes(
+                    `${head(f)}/${inner}`,
+                    getInnerFolders(selectedSymbols)
+                  )}
+                />
                 <FolderIcon />
                 <p>{inner}</p>
               </FirstInner>
@@ -52,6 +71,7 @@ SideBar.propTypes = {
   onSelectFolder: PropTypes.func,
   folders: PropTypes.arrayOf,
   selectedFolder: PropTypes.string,
+  selectedSymbols: PropTypes.arrayOf,
 }
 
 export default SideBar

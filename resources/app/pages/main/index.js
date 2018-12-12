@@ -30,6 +30,7 @@ class Main extends React.Component {
     super(props)
     this.state = {
       selectedSymbols: [],
+      selectedSymbolsNames: [],
       selectedFolder: '',
       modal: false,
       newSymbolName: '',
@@ -48,14 +49,16 @@ class Main extends React.Component {
     })
 
   handleSelectSymbol = s => {
-    const { selectedSymbols } = this.state
+    const { selectedSymbols, selectedSymbolsNames } = this.state
     if (includes(s.symbolId, selectedSymbols)) {
       this.setState({
         selectedSymbols: without(s.symbolId, selectedSymbols),
+        selectedSymbolsNames: without(s.name, selectedSymbolsNames),
       })
     } else {
       this.setState({
         selectedSymbols: append(s.symbolId, selectedSymbols),
+        selectedSymbolsNames: append(s.name, selectedSymbolsNames),
       })
     }
   }
@@ -105,7 +108,13 @@ class Main extends React.Component {
   render() {
     // props and state
     const { loading, symbols, message } = this.props
-    const { selectedSymbols, selectedFolder, modal, newSymbolName } = this.state
+    const {
+      selectedSymbols,
+      selectedFolder,
+      modal,
+      newSymbolName,
+      selectedSymbolsNames,
+    } = this.state
 
     // Sort by name and selection length
     const sortedSymbols = sortBy(prop('name'))(symbols)
@@ -134,6 +143,7 @@ class Main extends React.Component {
           onSelectFolder={this.handleSelectFolder}
           folders={folders}
           selectedFolder={selectedFolder}
+          selectedSymbols={selectedSymbolsNames}
         />
         <SymbolsList
           loading={loading}

@@ -10,6 +10,22 @@ export const SideBarWrap = styled.aside`
   overflow: scroll;
 `
 
+export const StatusDot = styled.div`
+  display: none;
+  position: absolute;
+  left: 16px;
+  width: 8px;
+  height: 8px;
+  background-color: #0880f6;
+  border-radius: 4px;
+
+  ${p =>
+    p.hasSelectedSymbol &&
+    css`
+      display: flex;
+    `};
+`
+
 /* Folder list */
 export const FolderList = styled.ul`
   display: flex;
