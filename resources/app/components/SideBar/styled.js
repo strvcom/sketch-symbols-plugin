@@ -10,11 +10,37 @@ export const SideBarWrap = styled.aside`
   overflow: scroll;
 `
 
+export const StatusDot = styled.div`
+  display: none;
+  position: absolute;
+  left: 16px;
+  width: 8px;
+  height: 8px;
+  background-color: #0880f6;
+  border-radius: 4px;
+
+  ${p =>
+    p.hasSelectedSymbol &&
+    css`
+      display: flex;
+    `};
+`
+
 /* Folder list */
 export const FolderList = styled.ul`
   display: flex;
   flex-direction: column;
   width: 100%;
+`
+
+export const SubFolderList = styled(FolderList)`
+  display: none;
+
+  ${p =>
+    p.subSelected &&
+    css`
+      display: flex;
+    `};
 `
 
 export const Folder = styled.li`
@@ -26,9 +52,26 @@ export const Folder = styled.li`
   height: 32px;
   margin-bottom: 8px;
 
+  p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   &:hover {
     background-color: rgba(52, 53, 54, 0.05);
   }
+
+  ${p =>
+    p.subSelected &&
+    css`
+      background-color: rgba(8, 128, 246, 0.05);
+      color: #0880f6;
+
+      &:hover {
+        background-color: rgba(52, 53, 54, 0.05);
+      }
+    `};
 
   ${p =>
     p.selected &&
@@ -53,6 +96,12 @@ export const TopFolder = styled(Folder)`
 
   svg {
     margin-left: 24px;
+  }
+`
+
+export const FirstInner = styled(Folder)`
+  svg {
+    margin-left: 72px;
   }
 `
 /* End of folder components */

@@ -22,7 +22,7 @@ const Modal = ({
   <OverlayWrap show={show}>
     <ModalWrap>
       <ModalHeader>Rename Symbol</ModalHeader>
-      <ModalContent>
+      <ModalContent onSubmit={() => handleRename()}>
         <Label>Symbol Name</Label>
         <Input type="text" value={value} onChange={onChangeValue} />
         <ButtonRow>

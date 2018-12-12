@@ -2,7 +2,15 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { append, includes, without, sortBy, prop, length, path } from 'ramda'
+import {
+  append,
+  includes,
+  without,
+  sortBy,
+  prop,
+  length,
+  startsWith,
+} from 'ramda'
 import {
   fetchSymbols,
   selectSymbols,
@@ -10,7 +18,7 @@ import {
 } from '../../redux/reducers/symbols'
 import { Container, ButtonWrap } from './styled'
 import InsertButton from '../../components/InsertButton'
-import { createFolders, groupByFolders } from './helpers'
+import { createTree } from './helpers'
 import NavBar from '../../components/NavBar'
 import BottomBar from '../../components/BottomBar'
 import SideBar from '../../components/SideBar'
@@ -22,6 +30,7 @@ class Main extends React.Component {
     super(props)
     this.state = {
       selectedSymbols: [],
+      selectedSymbolsNames: [],
       selectedFolder: '',
       modal: false,
       newSymbolName: '',
@@ -40,14 +49,16 @@ class Main extends React.Component {
     })
 
   handleSelectSymbol = s => {
-    const { selectedSymbols } = this.state
+    const { selectedSymbols, selectedSymbolsNames } = this.state
     if (includes(s.symbolId, selectedSymbols)) {
       this.setState({
         selectedSymbols: without(s.symbolId, selectedSymbols),
+        selectedSymbolsNames: without(s.name, selectedSymbolsNames),
       })
     } else {
       this.setState({
         selectedSymbols: append(s.symbolId, selectedSymbols),
+        selectedSymbolsNames: append(s.name, selectedSymbolsNames),
       })
     }
   }
@@ -87,18 +98,36 @@ class Main extends React.Component {
       name: newSymbolName,
       symbolId: newSymbolId,
     }
-    dispatch(renameSymbol(symbolToModify)).then(dispatch(fetchSymbols()))
+    dispatch(renameSymbol(symbolToModify))
+    dispatch(fetchSymbols())
+    this.setState({
+      modal: false,
+    })
   }
 
   render() {
+    // props and state
     const { loading, symbols, message } = this.props
-    const { selectedSymbols, selectedFolder, modal, newSymbolName } = this.state
+    const {
+      selectedSymbols,
+      selectedFolder,
+      modal,
+      newSymbolName,
+      selectedSymbolsNames,
+    } = this.state
+
+    // Sort by name and selection length
     const sortedSymbols = sortBy(prop('name'))(symbols)
     const count = length(selectedSymbols)
-    const folders = createFolders(sortedSymbols)
-    const groups = groupByFolders(sortedSymbols)
-    const selectedGroup = path([selectedFolder], groups)
-    const selection = selectedGroup || sortedSymbols
+
+    // folders and groups
+    const folders = createTree(sortedSymbols)
+    const filtered = sortedSymbols.filter(s =>
+      startsWith(selectedFolder, s.name)
+    )
+
+    // selection to render
+    const selection = selectedFolder ? filtered : sortedSymbols
 
     return (
       <Container>
@@ -114,6 +143,7 @@ class Main extends React.Component {
           onSelectFolder={this.handleSelectFolder}
           folders={folders}
           selectedFolder={selectedFolder}
+          selectedSymbols={selectedSymbolsNames}
         />
         <SymbolsList
           loading={loading}
