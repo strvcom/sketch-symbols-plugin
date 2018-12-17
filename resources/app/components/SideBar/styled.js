@@ -17,6 +17,7 @@ export const StatusDot = styled.div`
   width: 8px;
   height: 8px;
   background-color: #0880f6;
+  /* background-color: greenyellow; */
   border-radius: 4px;
 
   ${p =>

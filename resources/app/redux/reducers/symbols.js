@@ -3,6 +3,7 @@ import { SET_SYMBOLS, SUCCESS } from '../../../../shared-actions'
 const FETCH_SYMBOLS = 'symbols/FETCH_SYMBOLS'
 const SELECT_SYMBOLS = 'symbols/SELECT_SYMBOLS'
 const RENAME_SYMBOL = 'symbols/RENAME_SYMBOL'
+const MESSAGE = 'symbols/MESSAGE'
 
 const initialState = {
   loading: false,
@@ -10,6 +11,13 @@ const initialState = {
 }
 
 const handlers = {}
+
+export const logSomething = message => ({
+  type: MESSAGE,
+  meta: {
+    sketch: ['logger', message],
+  },
+})
 
 export const fetchSymbols = () => ({
   type: FETCH_SYMBOLS,

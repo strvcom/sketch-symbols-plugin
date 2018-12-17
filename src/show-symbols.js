@@ -62,6 +62,11 @@ export default function() {
       .catch(console.error)
   })
 
+  webContents.on('logger', message => {
+    console.log(message)
+    log(message)
+  })
+
   // listen to insertSymbol and execute plugin
   // function to create new symbol instance
   webContents.on('insertSymbol', symbols => {
