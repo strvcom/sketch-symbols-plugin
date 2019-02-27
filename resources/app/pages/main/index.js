@@ -16,7 +16,7 @@ import {
   fetchSymbols,
   selectSymbols,
   renameSymbol,
-  // logSomething,
+  logSomething,
 } from '../../redux/reducers/symbols'
 import { Container, ButtonWrap } from './styled'
 import InsertButton from '../../components/InsertButton'
@@ -82,11 +82,13 @@ class Main extends React.Component {
   }
 
   handleShowModal = symbol => {
+    const { dispatch } = this.props
     this.setState({
       newSymbolName: symbol.name,
       newSymbolId: symbol.symbolId,
       modal: true,
     })
+    dispatch(logSomething(symbol.name))
   }
 
   handleCloseModal = () => {

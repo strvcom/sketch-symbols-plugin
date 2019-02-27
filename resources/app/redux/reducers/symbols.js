@@ -1,4 +1,8 @@
-import { SET_SYMBOLS, SUCCESS } from '../../../../shared-actions'
+import {
+  SET_SYMBOLS,
+  SUCCESS,
+  SET_SYMBOL_CREATED,
+} from '../../../../shared-actions'
 
 const FETCH_SYMBOLS = 'symbols/FETCH_SYMBOLS'
 const SELECT_SYMBOLS = 'symbols/SELECT_SYMBOLS'
@@ -7,11 +11,15 @@ const MESSAGE = 'symbols/MESSAGE'
 
 const initialState = {
   loading: false,
+  symbolCreated: false,
   symbols: [],
 }
 
 const handlers = {}
 
+// actions
+// called from app to backend
+// hence the meta:
 export const logSomething = message => ({
   type: MESSAGE,
   meta: {
@@ -26,35 +34,10 @@ export const fetchSymbols = () => ({
   },
 })
 
-handlers[FETCH_SYMBOLS] = state => ({
-  ...state,
-  loading: true,
-})
-
-export const setSymbols = symbols => ({
-  type: SET_SYMBOLS,
-  payload: {
-    symbols,
-  },
-})
-
-handlers[SET_SYMBOLS] = (state, { payload }) => ({
-  ...state,
-  symbols: payload.symbols,
-  loading: false,
-})
-
 export const selectSymbols = symbols => ({
   type: SELECT_SYMBOLS,
   meta: {
     sketch: ['insertSymbol', symbols],
-  },
-})
-
-export const setSuccess = message => ({
-  type: SUCCESS,
-  payload: {
-    message,
   },
 })
 
@@ -65,11 +48,51 @@ export const renameSymbol = symbol => ({
   },
 })
 
+// called from backend to app
+export const setSymbols = symbols => ({
+  type: SET_SYMBOLS,
+  payload: {
+    symbols,
+  },
+})
+
+export const setSuccess = message => ({
+  type: SUCCESS,
+  payload: {
+    message,
+  },
+})
+
+export const setSymbolCreated = message => ({
+  type: SET_SYMBOL_CREATED,
+  payload: {
+    message,
+  },
+})
+
+// handlers
+handlers[FETCH_SYMBOLS] = state => ({
+  ...state,
+  loading: true,
+})
+
+handlers[SET_SYMBOLS] = (state, { payload }) => ({
+  ...state,
+  symbols: payload.symbols,
+  loading: false,
+})
+
 handlers[SUCCESS] = (state, { payload }) => ({
   ...state,
   message: payload.message,
 })
 
+handlers[SET_SYMBOL_CREATED] = (state, { payload }) => ({
+  ...state,
+  symbolCreated: payload,
+})
+
+// default export
 export default function(state = initialState, action) {
   if (handlers[action.type]) {
     return handlers[action.type](state, action)

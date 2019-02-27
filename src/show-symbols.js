@@ -1,4 +1,4 @@
-/* globals MSTheme, log */
+/* globals log */
 /* eslint-disable global-require, no-console */
 import Settings from 'sketch/settings' // eslint-disable-line
 import BrowserWindow from 'sketch-module-web-view'
@@ -28,10 +28,12 @@ export default function() {
   browserWindow.loadURL(require('../resources/webview.html'))
   // sets the window theme according to osx setting
   const settings = {
-    theme:
-      typeof MSTheme !== 'undefined' && MSTheme.sharedTheme().isDark()
-        ? 'dark'
-        : 'light',
+    theme: 'light',
+    // prep for dark design
+    // theme:
+    //   typeof MSTheme !== 'undefined' && MSTheme.sharedTheme().isDark()
+    //     ? 'light'
+    //     : 'light',
   }
 
   browserWindow.webContents.insertJS(

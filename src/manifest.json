@@ -8,10 +8,21 @@
       "identifier": "symbols",
       "script": "./show-symbols.js",
       "shortcut": "ctrl alt y"
+    },
+    {
+      "name": "Refresh on New Symbol",
+      "identifier": "refreshSymbols",
+      "script": "./catchSymbolCreation.js",
+      "handlers": {
+        "actions": {
+          "CreateSymbol.finish": "refreshOnCreate",
+          "SelectionChanged.finish": "getUpdatedSymbols"
+        }
+      }
     }
   ],
   "menu": {
     "isRoot": true,
-    "items": ["symbols", "insert"]
+    "items": ["symbols"]
   }
 }
