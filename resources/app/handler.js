@@ -4,11 +4,8 @@ import {
   SUCCESS,
   MAIN_FUNCTION_BRIDGE,
 } from '../../shared-actions'
-import {
-  setSymbols,
-  setSuccess,
-  mainThreadBridge,
-} from './redux/reducers/symbols'
+import { setSymbols, setSuccess } from './redux/reducers/symbols'
+import { mainThreadBridge } from './redux/reducers/helpers'
 
 export default function(dispatch) {
   /**

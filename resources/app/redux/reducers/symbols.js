@@ -1,40 +1,15 @@
-import {
-  SET_SYMBOLS,
-  SUCCESS,
-  SET_SYMBOL_CREATED,
-} from '../../../../shared-actions'
-// import store from '../store'
+import { SET_SYMBOLS, SUCCESS } from '../../../../shared-actions'
 
 const FETCH_SYMBOLS = 'symbols/FETCH_SYMBOLS'
 const SELECT_SYMBOLS = 'symbols/SELECT_SYMBOLS'
 const RENAME_SYMBOL = 'symbols/RENAME_SYMBOL'
-const MESSAGE = 'symbols/MESSAGE'
-const BACK_TO_MAIN = 'symbols/BACK_TO_MAIN'
 
 const initialState = {
   loading: false,
-  symbolCreated: false,
   symbols: [],
 }
 
 const handlers = {}
-
-/* 
-  actions called from app to backend (Sketch), hence the meta.
-*/
-export const logSomething = message => ({
-  type: MESSAGE,
-  meta: {
-    sketch: ['logger', message],
-  },
-})
-
-export const mainThreadBridge = payload => ({
-  type: BACK_TO_MAIN,
-  meta: {
-    sketch: ['mainFunctionBridge', payload],
-  },
-})
 
 export const fetchSymbols = () => ({
   type: FETCH_SYMBOLS,
@@ -87,11 +62,6 @@ handlers[SET_SYMBOLS] = (state, { payload }) => ({
 handlers[SUCCESS] = (state, { payload }) => ({
   ...state,
   message: payload.message,
-})
-
-handlers[SET_SYMBOL_CREATED] = (state, { payload }) => ({
-  ...state,
-  symbolCreated: payload,
 })
 
 // default export

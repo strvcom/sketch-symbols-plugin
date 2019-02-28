@@ -16,8 +16,8 @@ import {
   fetchSymbols,
   selectSymbols,
   renameSymbol,
-  logSomething,
 } from '../../redux/reducers/symbols'
+import { logSomething } from '../../redux/reducers/helpers'
 import { Container, ButtonWrap } from './styled'
 import InsertButton from '../../components/InsertButton'
 import { createTree } from './helpers'

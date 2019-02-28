@@ -7,7 +7,7 @@ import { SET_SYMBOLS, SUCCESS } from '../shared-actions'
 import getAllSymbols from './get-all-symbols'
 import insertSymbols from './insert-symbols'
 import renameSymbol from './rename-symbol'
-import CreateSymbolState from './CreateSymbolState'
+import CreateSymbolState from './store'
 import { CREATE_SYMBOL, SELECTION_CHANGED } from './constants'
 
 export default function() {
