@@ -1,9 +1,13 @@
 /* globals window */
-import { SET_SYMBOLS, SUCCESS, SET_SYMBOL_CREATED } from '../../shared-actions'
+import {
+  SET_SYMBOLS,
+  SUCCESS,
+  MAIN_FUNCTION_BRIDGE,
+} from '../../shared-actions'
 import {
   setSymbols,
   setSuccess,
-  setSymbolCreated,
+  mainThreadBridge,
 } from './redux/reducers/symbols'
 
 export default function(dispatch) {
@@ -19,8 +23,8 @@ export default function(dispatch) {
         return dispatch(setSymbols(jsonData.payload))
       case SUCCESS:
         return dispatch(setSuccess(jsonData.payload))
-      case SET_SYMBOL_CREATED:
-        return dispatch(setSymbolCreated(jsonData.payload))
+      case MAIN_FUNCTION_BRIDGE:
+        return dispatch(mainThreadBridge(jsonData.payload))
       default:
         return console.error(
           new Error('unknown action received from the bridge')

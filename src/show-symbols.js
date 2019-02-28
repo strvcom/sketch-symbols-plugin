@@ -7,6 +7,8 @@ import { SET_SYMBOLS, SUCCESS } from '../shared-actions'
 import getAllSymbols from './get-all-symbols'
 import insertSymbols from './insert-symbols'
 import renameSymbol from './rename-symbol'
+import CreateSymbolState from './CreateSymbolState'
+import { CREATE_SYMBOL, SELECTION_CHANGED } from './constants'
 
 export default function() {
   // default WebView settings
@@ -22,7 +24,13 @@ export default function() {
     show: false,
     alwaysOnTop: true,
     acceptFirstMouse: true,
+    webPreferences: {
+      devTools: true,
+    },
   })
+
+  const store = new CreateSymbolState()
+  log('Main function store initialized')
 
   // load html template
   browserWindow.loadURL(require('../resources/webview.html'))
@@ -65,8 +73,29 @@ export default function() {
   })
 
   webContents.on('logger', message => {
-    console.log(message)
     log(message)
+  })
+
+  webContents.on('mainFunctionBridge', payload => {
+    if (payload === CREATE_SYMBOL && !store.getSymbolCreatedSwitch()) {
+      store.setSymbolCreatedTrue()
+      log(store.getSymbolCreatedSwitch())
+      log('Symbol creation trigered')
+    }
+    if (payload === SELECTION_CHANGED && store.getSymbolCreatedSwitch()) {
+      store.setSymbolCreatedFalse()
+      log(store.getSymbolCreatedSwitch())
+      log('Finished creating a symbol. Ready to refresh')
+      const refreshedSymbols = getAllSymbols()
+      webContents
+        .executeJavaScript(
+          `sketchBridge(${JSON.stringify({
+            name: SET_SYMBOLS,
+            payload: refreshedSymbols,
+          })})`
+        )
+        .catch(console.error)
+    }
   })
 
   // listen to insertSymbol and execute plugin

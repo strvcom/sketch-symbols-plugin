@@ -3,11 +3,13 @@ import {
   SUCCESS,
   SET_SYMBOL_CREATED,
 } from '../../../../shared-actions'
+// import store from '../store'
 
 const FETCH_SYMBOLS = 'symbols/FETCH_SYMBOLS'
 const SELECT_SYMBOLS = 'symbols/SELECT_SYMBOLS'
 const RENAME_SYMBOL = 'symbols/RENAME_SYMBOL'
 const MESSAGE = 'symbols/MESSAGE'
+const BACK_TO_MAIN = 'symbols/BACK_TO_MAIN'
 
 const initialState = {
   loading: false,
@@ -26,6 +28,15 @@ export const logSomething = message => ({
     sketch: ['logger', message],
   },
 })
+
+export const mainThreadBridge = payload =>
+  // store.dispatch(logSomething('symbol created and redux prepared'))
+  ({
+    type: BACK_TO_MAIN,
+    meta: {
+      sketch: ['mainFunctionBridge', payload],
+    },
+  })
 
 export const fetchSymbols = () => ({
   type: FETCH_SYMBOLS,
@@ -58,13 +69,6 @@ export const setSymbols = symbols => ({
 
 export const setSuccess = message => ({
   type: SUCCESS,
-  payload: {
-    message,
-  },
-})
-
-export const setSymbolCreated = message => ({
-  type: SET_SYMBOL_CREATED,
   payload: {
     message,
   },
