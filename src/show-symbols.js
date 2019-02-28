@@ -60,32 +60,20 @@ export default function() {
     log(s)
   })
 
-  // listen to getSymbols from React
-  // and send back data
-  webContents.on('getSymbols', () => {
-    const state = getAllSymbols()
-
-    webContents
-      .executeJavaScript(
-        `sketchBridge(${JSON.stringify({ name: SET_SYMBOLS, payload: state })})`
-      )
-      .catch(console.error)
-  })
-
   webContents.on('logger', message => {
     log(message)
   })
 
+  /* 
+    This function serves as a bridge to this main and allways running function. It needs a opened webview to trigger live responses to other functions.
+    Like for ex. reload on creation of a new symbol.
+  */
   webContents.on('mainFunctionBridge', payload => {
     if (payload === CREATE_SYMBOL && !store.getSymbolCreatedSwitch()) {
       store.setSymbolCreatedTrue()
-      log(store.getSymbolCreatedSwitch())
-      log('Symbol creation trigered')
     }
     if (payload === SELECTION_CHANGED && store.getSymbolCreatedSwitch()) {
       store.setSymbolCreatedFalse()
-      log(store.getSymbolCreatedSwitch())
-      log('Finished creating a symbol. Ready to refresh')
       const refreshedSymbols = getAllSymbols()
       webContents
         .executeJavaScript(
@@ -98,8 +86,24 @@ export default function() {
     }
   })
 
-  // listen to insertSymbol and execute plugin
-  // function to create new symbol instance
+  /* 
+    listen to getSymbols from React
+    and send back data
+  */
+  webContents.on('getSymbols', () => {
+    const state = getAllSymbols()
+
+    webContents
+      .executeJavaScript(
+        `sketchBridge(${JSON.stringify({ name: SET_SYMBOLS, payload: state })})`
+      )
+      .catch(console.error)
+  })
+
+  /* 
+    listen to insertSymbol and execute plugin
+    function to create new symbol instance
+  */
   webContents.on('insertSymbol', symbols => {
     const message = insertSymbols(symbols)
 
@@ -113,6 +117,10 @@ export default function() {
       .catch(console.error)
   })
 
+  /* 
+    listen to symbolRename and execute plugin
+    function to rename a symbol
+  */
   webContents.on('symbolRename', symbol => {
     const message = renameSymbol(symbol)
 

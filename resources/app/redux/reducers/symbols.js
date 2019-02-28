@@ -19,9 +19,9 @@ const initialState = {
 
 const handlers = {}
 
-// actions
-// called from app to backend
-// hence the meta:
+/* 
+  actions called from app to backend (Sketch), hence the meta.
+*/
 export const logSomething = message => ({
   type: MESSAGE,
   meta: {
@@ -29,14 +29,12 @@ export const logSomething = message => ({
   },
 })
 
-export const mainThreadBridge = payload =>
-  // store.dispatch(logSomething('symbol created and redux prepared'))
-  ({
-    type: BACK_TO_MAIN,
-    meta: {
-      sketch: ['mainFunctionBridge', payload],
-    },
-  })
+export const mainThreadBridge = payload => ({
+  type: BACK_TO_MAIN,
+  meta: {
+    sketch: ['mainFunctionBridge', payload],
+  },
+})
 
 export const fetchSymbols = () => ({
   type: FETCH_SYMBOLS,
