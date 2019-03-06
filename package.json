@@ -18,7 +18,7 @@
     ]
   },
   "repository": {
-    "url": "https://github.com/PrimeStark/symbols-manager"
+    "url": "https://github.com/strvcom/sketch-symbols-plugin"
   },
   "license": "MIT",
   "scripts": {
@@ -31,7 +31,8 @@
     "lint": "eslint --ignore-path=.gitignore .",
     "prettier:base": "prettier --write",
     "prettify": "npm run prettier:base \"./src/**/*.{js,jsx}\" \"./resources/**/*.{js,jsx}\"",
-    "depcheck": "depcheck"
+    "depcheck": "depcheck",
+    "publish": "skpm publish --skip-release --skip-registry"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.1.0",
