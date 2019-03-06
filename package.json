@@ -32,7 +32,8 @@
     "prettier:base": "prettier --write",
     "prettify": "npm run prettier:base \"./src/**/*.{js,jsx}\" \"./resources/**/*.{js,jsx}\"",
     "depcheck": "depcheck",
-    "publish": "skpm publish --skip-release --skip-registry"
+    "prepare-publish": "zip release/sketch-symbols-plugin symbols-manager.sketchplugin",
+    "publish": "skpm publish --skip-release --skip-registry --download-url https://github.com/strvcom/sketch-symbols-plugin/release/sketch-symbols-plugin.zip"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.1.0",
