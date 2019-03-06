@@ -10,12 +10,14 @@ import {
   prop,
   length,
   startsWith,
+  equals,
 } from 'ramda'
 import {
   fetchSymbols,
   selectSymbols,
   renameSymbol,
 } from '../../redux/reducers/symbols'
+import { logSomething } from '../../redux/reducers/helpers'
 import { Container, ButtonWrap } from './styled'
 import InsertButton from '../../components/InsertButton'
 import { createTree } from './helpers'
@@ -32,6 +34,7 @@ class Main extends React.Component {
       selectedSymbols: [],
       selectedSymbolsNames: [],
       selectedFolder: '',
+      isSelectedFolder: true,
       modal: false,
       newSymbolName: '',
       newSymbolId: '',
@@ -43,10 +46,12 @@ class Main extends React.Component {
     dispatch(fetchSymbols())
   }
 
-  handleSelectFolder = folder =>
+  handleSelectFolder = folder => {
     this.setState({
-      selectedFolder: folder,
+      selectedFolder: folder.name,
+      isSelectedFolder: folder.isFolder,
     })
+  }
 
   handleSelectSymbol = s => {
     const { selectedSymbols, selectedSymbolsNames } = this.state
@@ -70,17 +75,21 @@ class Main extends React.Component {
       dispatch(selectSymbols(selectedSymbols)).then(
         this.setState({
           selectedSymbols: [],
+          selectedSymbolsNames: [],
         })
       )
     }
   }
 
-  handleShowModal = symbol =>
+  handleShowModal = symbol => {
+    const { dispatch } = this.props
     this.setState({
       newSymbolName: symbol.name,
       newSymbolId: symbol.symbolId,
       modal: true,
     })
+    dispatch(logSomething(symbol.name))
+  }
 
   handleCloseModal = () => {
     this.setState({ modal: false })
@@ -114,6 +123,7 @@ class Main extends React.Component {
       modal,
       newSymbolName,
       selectedSymbolsNames,
+      isSelectedFolder,
     } = this.state
 
     // Sort by name and selection length
@@ -122,9 +132,12 @@ class Main extends React.Component {
 
     // folders and groups
     const folders = createTree(sortedSymbols)
-    const filtered = sortedSymbols.filter(s =>
-      startsWith(selectedFolder, s.name)
-    )
+    // const filtered = sortedSymbols.filter(s =>
+    //   startsWith(selectedFolder, s.name)
+    // )
+    const filtered = isSelectedFolder
+      ? sortedSymbols.filter(s => startsWith(selectedFolder, s.name))
+      : sortedSymbols.filter(s => equals(selectedFolder, s.name))
 
     // selection to render
     const selection = selectedFolder ? filtered : sortedSymbols

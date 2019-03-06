@@ -18,35 +18,10 @@ export const fetchSymbols = () => ({
   },
 })
 
-handlers[FETCH_SYMBOLS] = state => ({
-  ...state,
-  loading: true,
-})
-
-export const setSymbols = symbols => ({
-  type: SET_SYMBOLS,
-  payload: {
-    symbols,
-  },
-})
-
-handlers[SET_SYMBOLS] = (state, { payload }) => ({
-  ...state,
-  symbols: payload.symbols,
-  loading: false,
-})
-
 export const selectSymbols = symbols => ({
   type: SELECT_SYMBOLS,
   meta: {
     sketch: ['insertSymbol', symbols],
-  },
-})
-
-export const setSuccess = message => ({
-  type: SUCCESS,
-  payload: {
-    message,
   },
 })
 
@@ -57,11 +32,39 @@ export const renameSymbol = symbol => ({
   },
 })
 
+// called from backend to app
+export const setSymbols = symbols => ({
+  type: SET_SYMBOLS,
+  payload: {
+    symbols,
+  },
+})
+
+export const setSuccess = message => ({
+  type: SUCCESS,
+  payload: {
+    message,
+  },
+})
+
+// handlers
+handlers[FETCH_SYMBOLS] = state => ({
+  ...state,
+  loading: true,
+})
+
+handlers[SET_SYMBOLS] = (state, { payload }) => ({
+  ...state,
+  symbols: payload.symbols,
+  loading: false,
+})
+
 handlers[SUCCESS] = (state, { payload }) => ({
   ...state,
   message: payload.message,
 })
 
+// default export
 export default function(state = initialState, action) {
   if (handlers[action.type]) {
     return handlers[action.type](state, action)

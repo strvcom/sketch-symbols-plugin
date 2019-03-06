@@ -1,6 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { toPairs, head, keys, startsWith, includes } from 'ramda'
+import {
+  toPairs,
+  head,
+  keys,
+  startsWith,
+  includes,
+  length,
+  equals,
+} from 'ramda'
 import {
   SideBarWrap,
   FolderList,
@@ -12,6 +20,7 @@ import {
 } from './styled'
 import SketchDocumentIcon from '../../assets/SketchDocumentIcon'
 import FolderIcon from '../../assets/FolderIcon'
+import SymbolIcon from '../../assets/SymbolIcon'
 import { getTopFolders, getInnerFolders } from './helpers'
 
 const SideBar = ({
@@ -22,45 +31,65 @@ const SideBar = ({
 }) => (
   <SideBarWrap>
     <FolderList>
-      <TopFolder onClick={() => onSelectFolder('')}>
+      <TopFolder onClick={() => onSelectFolder({ name: '', isFolder: true })}>
         <SketchDocumentIcon />
         Document
       </TopFolder>
-      {toPairs(folders).map(f => (
+      {toPairs(folders).map(mainFolder => (
         <React.Fragment>
           <Folder
-            onClick={() => onSelectFolder(head(f))}
-            selected={
-              startsWith(head(f), selectedFolder) && selectedFolder === head(f)
+            onClick={() =>
+              onSelectFolder({ name: head(mainFolder), isFolder: true })
             }
-            subSelected={startsWith(head(f), selectedFolder)}
+            selected={
+              startsWith(head(mainFolder), selectedFolder) &&
+              selectedFolder === head(mainFolder)
+            }
+            subSelected={startsWith(head(mainFolder), selectedFolder)}
           >
             <StatusDot
               hasSelectedSymbol={includes(
-                head(f),
+                head(mainFolder),
                 getTopFolders(selectedSymbols)
               )}
             />
-            <FolderIcon />
-            <p>{head(f)}</p>
+            {head(keys(mainFolder[1])) === 'undefined' ? (
+              <SymbolIcon />
+            ) : (
+              <FolderIcon />
+            )}
+            <p>{head(mainFolder)}</p>
           </Folder>
-          <SubFolderList subSelected={startsWith(head(f), selectedFolder)}>
-            {keys(f[1]).map(inner => (
-              <FirstInner
-                onClick={() => onSelectFolder(`${head(f)}/${inner}`)}
-                selected={startsWith(`${head(f)}/${inner}`, selectedFolder)}
-              >
-                <StatusDot
-                  hasSelectedSymbol={includes(
-                    `${head(f)}/${inner}`,
-                    getInnerFolders(selectedSymbols)
+
+          {head(keys(mainFolder[1])) !== 'undefined' ? (
+            <SubFolderList
+              subSelected={startsWith(head(mainFolder), selectedFolder)}
+            >
+              {toPairs(mainFolder[1]).map(inner => (
+                <FirstInner
+                  onClick={() =>
+                    onSelectFolder({
+                      name: `${head(mainFolder)}/${head(inner)}`,
+                      isFolder: length(inner[1]) > 1,
+                    })
+                  }
+                  selected={equals(
+                    selectedFolder,
+                    `${head(mainFolder)}/${head(inner)}`
                   )}
-                />
-                <FolderIcon />
-                <p>{inner}</p>
-              </FirstInner>
-            ))}
-          </SubFolderList>
+                >
+                  <StatusDot
+                    hasSelectedSymbol={includes(
+                      `${head(mainFolder)}/${head(inner)}`,
+                      getInnerFolders(selectedSymbols)
+                    )}
+                  />
+                  {length(inner[1]) > 1 ? <FolderIcon /> : <SymbolIcon />}
+                  <p>{head(inner)}</p>
+                </FirstInner>
+              ))}
+            </SubFolderList>
+          ) : null}
         </React.Fragment>
       ))}
     </FolderList>

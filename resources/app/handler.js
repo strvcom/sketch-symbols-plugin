@@ -1,6 +1,11 @@
 /* globals window */
-import { SET_SYMBOLS, SUCCESS } from '../../shared-actions'
+import {
+  SET_SYMBOLS,
+  SUCCESS,
+  MAIN_FUNCTION_BRIDGE,
+} from '../../shared-actions'
 import { setSymbols, setSuccess } from './redux/reducers/symbols'
+import { mainThreadBridge } from './redux/reducers/helpers'
 
 export default function(dispatch) {
   /**
@@ -15,6 +20,8 @@ export default function(dispatch) {
         return dispatch(setSymbols(jsonData.payload))
       case SUCCESS:
         return dispatch(setSuccess(jsonData.payload))
+      case MAIN_FUNCTION_BRIDGE:
+        return dispatch(mainThreadBridge(jsonData.payload))
       default:
         return console.error(
           new Error('unknown action received from the bridge')

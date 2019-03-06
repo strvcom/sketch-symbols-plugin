@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { includes } from 'ramda'
-import { ListWrap, List, SymbolTileWrap, SymbolTile, EditWrap } from './styled'
-import SymbolIcon from '../../assets/SymbolIcon'
-import EditIcon from '../../assets/EditIcon'
+import { ListWrap } from './styled'
+import List from '../List'
 
 const SymbolsList = ({
   loading,
@@ -17,19 +15,13 @@ const SymbolsList = ({
     {loading ? (
       <div>Loading...</div>
     ) : (
-      <List>
-        {selection.map(s => (
-          <SymbolTileWrap selected={includes(s.symbolId, selectedSymbols)}>
-            <SymbolTile onClick={() => handleSelectSymbol(s)}>
-              <SymbolIcon />
-              {s.name}
-            </SymbolTile>
-            <EditWrap onClick={() => handleShowModal(s)}>
-              <EditIcon />
-            </EditWrap>
-          </SymbolTileWrap>
-        ))}
-      </List>
+      <List
+        selection={selection}
+        selectedSymbols={selectedSymbols}
+        handleSelectSymbol={handleSelectSymbol}
+        handleShowModal={handleShowModal}
+        id="list"
+      />
     )}
     {children}
   </ListWrap>
