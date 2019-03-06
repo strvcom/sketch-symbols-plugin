@@ -1,6 +1,6 @@
 {
   "name": "strv-symbols",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Manage all your symbols in more efficient way",
   "files": [
     "debugger.js",
@@ -32,8 +32,8 @@
     "prettier:base": "prettier --write",
     "prettify": "npm run prettier:base \"./src/**/*.{js,jsx}\" \"./resources/**/*.{js,jsx}\"",
     "depcheck": "depcheck",
-    "prepare-publish": "(rm release/sketch-symbols-plugin.zip || true) && npm run build && zip -r release/sketch-symbols-plugin symbols-manager.sketchplugin",
-    "publish": "skpm publish 1.1.1 --skip-release --skip-registry --download-url https://github.com/strvcom/sketch-symbols-plugin/release/sketch-symbols-plugin.zip"
+    "prepare-publish": "(rm -rf symbols-manager.sketchplugin || true) && (rm release/sketch-symbols-plugin.zip || true) && npm run build && zip -r release/sketch-symbols-plugin symbols-manager.sketchplugin",
+    "publish": "skpm publish 1.1.2 --skip-release --skip-registry --download-url https://github.com/strvcom/sketch-symbols-plugin/release/sketch-symbols-plugin.zip"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.1.0",
