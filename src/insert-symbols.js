@@ -117,6 +117,7 @@ export default function(symbols) {
       ),
     })
 
+    document.centerOnLayer(newSymbolInstance)
     return newSymbolInstance
   })
 

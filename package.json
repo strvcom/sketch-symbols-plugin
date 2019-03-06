@@ -1,6 +1,6 @@
 {
   "name": "strv-symbols",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "description": "Manage all your symbols in more efficient way",
   "files": [
     "debugger.js",
@@ -18,7 +18,7 @@
     ]
   },
   "repository": {
-    "url": "https://github.com/PrimeStark/symbols-manager"
+    "url": "https://github.com/strvcom/sketch-symbols-plugin"
   },
   "license": "MIT",
   "scripts": {
@@ -31,15 +31,19 @@
     "lint": "eslint --ignore-path=.gitignore .",
     "prettier:base": "prettier --write",
     "prettify": "npm run prettier:base \"./src/**/*.{js,jsx}\" \"./resources/**/*.{js,jsx}\"",
-    "depcheck": "depcheck"
+    "depcheck": "depcheck",
+    "prepare-publish": "zip release/sketch-symbols-plugin symbols-manager.sketchplugin",
+    "publish": "skpm publish 1.1.0 --skip-release --skip-registry --download-url https://github.com/strvcom/sketch-symbols-plugin/release/sketch-symbols-plugin.zip"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/standalone": "^7.1.0",
     "@skpm/builder": "^0.5.10",
     "@skpm/child_process": "^0.2.4",
     "@skpm/extract-loader": "^2.0.2",
     "@skpm/fs": "^0.2.0",
     "@skpm/os": "^0.1.1",
+    "babel-eslint": "^10.0.1",
     "babel-plugin-emotion": "^9.2.11",
     "cocoascript-class": "^0.1.2",
     "codemirror": "^5.40.2",
@@ -61,6 +65,7 @@
     "prettier": "^1.14.3",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
+    "react-beautiful-dnd": "^10.0.3",
     "react-codemirror2": "^5.1.0",
     "react-dom": "^16.5.2",
     "react-emotion": "^9.2.12",
