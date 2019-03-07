@@ -9,6 +9,7 @@ import insertSymbols from './insert-symbols'
 import renameSymbol from './rename-symbol'
 import CreateSymbolState from './store'
 import { CREATE_SYMBOL, SELECTION_CHANGED } from './constants'
+import symbolTransform from './symbolTransform'
 
 export default function() {
   // default WebView settings
@@ -92,6 +93,7 @@ export default function() {
   */
   webContents.on('getSymbols', () => {
     const state = getAllSymbols()
+    symbolTransform()
 
     webContents
       .executeJavaScript(
