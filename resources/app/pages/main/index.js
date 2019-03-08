@@ -10,7 +10,6 @@ import {
   prop,
   length,
   startsWith,
-  equals,
 } from 'ramda'
 import {
   fetchSymbols,
@@ -34,7 +33,6 @@ class Main extends React.Component {
       selectedSymbols: [],
       selectedSymbolsNames: [],
       selectedFolder: '',
-      isSelectedFolder: true,
       modal: false,
       newSymbolName: '',
       newSymbolId: '',
@@ -49,7 +47,6 @@ class Main extends React.Component {
   handleSelectFolder = folder => {
     this.setState({
       selectedFolder: folder.name,
-      isSelectedFolder: folder.isFolder,
     })
   }
 
@@ -123,7 +120,6 @@ class Main extends React.Component {
       modal,
       newSymbolName,
       selectedSymbolsNames,
-      isSelectedFolder,
     } = this.state
 
     // Sort by name and selection length
@@ -132,9 +128,9 @@ class Main extends React.Component {
 
     // folders and groups
     const folders = createTree(sortedSymbols)
-    const filtered = isSelectedFolder
-      ? sortedSymbols.filter(s => startsWith(selectedFolder, s.name))
-      : sortedSymbols.filter(s => equals(selectedFolder, s.name))
+    const filtered = sortedSymbols.filter(s =>
+      startsWith(selectedFolder, s.name)
+    )
 
     // selection to render
     const selection = selectedFolder ? filtered : sortedSymbols

@@ -31,16 +31,14 @@ const SideBar = ({
 }) => (
   <SideBarWrap>
     <FolderList>
-      <TopFolder onClick={() => onSelectFolder({ name: '', isFolder: true })}>
+      <TopFolder onClick={() => onSelectFolder({ name: '' })}>
         <SketchDocumentIcon />
         Document
       </TopFolder>
       {toPairs(folders).map(mainFolder => (
         <React.Fragment>
           <Folder
-            onClick={() =>
-              onSelectFolder({ name: head(mainFolder), isFolder: true })
-            }
+            onClick={() => onSelectFolder({ name: head(mainFolder) })}
             selected={
               startsWith(head(mainFolder), selectedFolder) &&
               selectedFolder === head(mainFolder)
@@ -70,7 +68,6 @@ const SideBar = ({
                   onClick={() =>
                     onSelectFolder({
                       name: `${head(mainFolder)}/${head(inner)}`,
-                      isFolder: length(inner[1]) > 1,
                     })
                   }
                   selected={equals(
