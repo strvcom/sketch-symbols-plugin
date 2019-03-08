@@ -132,9 +132,6 @@ class Main extends React.Component {
 
     // folders and groups
     const folders = createTree(sortedSymbols)
-    // const filtered = sortedSymbols.filter(s =>
-    //   startsWith(selectedFolder, s.name)
-    // )
     const filtered = isSelectedFolder
       ? sortedSymbols.filter(s => startsWith(selectedFolder, s.name))
       : sortedSymbols.filter(s => equals(selectedFolder, s.name))
