@@ -32,17 +32,17 @@ But you still can log some things out when needed.\
 You have two ways to do it.
 
 1. Download [Sketch Developer Tools](https://github.com/skpm/sketch-dev-tools/releases/latest). It is basically another plugin for sketch. It has console where you can send some logs with `log()` or `console.log()`
-2. Use default Mac Console App. Filter results like this:\
-  * Write `Sketch` and press return. Then change it's type to `process`
-  * Write `Sketch` and press return again. Then change this type to `library`
-  * Save this filter for later so you don't have to search for it again
+2. Use default Mac Console App. Filter results like this:
+* Write `Sketch` and press return. Then change it's type to `process`
+* Write `Sketch` and press return again. Then change this type to `library`
+* Save this filter for later so you don't have to search for it again\
 The default console app is little messy tho. You can't get all the data you need when you for example log some Sketch object. But for some small logs it's ok.
 
 __Tips__\
 When Sketch crashes it goes into safe mode and disables all plugins on next launch. To disable this feature for convenience use this:\
 `defaults write com.bohemiancoding.sketch3 disableAutomaticSafeMode true`
 
-Sometimes you might want to execute a function on some Sketch action. To monitor them all to find the right one do this:\
+Sometimes you might want to execute a function on some Sketch action. To monitor them all to find the right one do this:
 * `defaults write com.bohemiancoding.sketch3 actionWildcardsAllowed -bool YES`
 * then in manifest.json:
     `{
