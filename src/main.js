@@ -4,9 +4,9 @@ import Settings from 'sketch/settings' // eslint-disable-line
 import BrowserWindow from 'sketch-module-web-view'
 import sketch from 'sketch' // eslint-disable-line
 import { SET_SYMBOLS, SUCCESS } from '../shared-actions'
-import getAllSymbols from './get-all-symbols'
-import insertSymbols from './insert-symbols'
-import renameSymbol from './rename-symbol'
+import getAllSymbols from './getAllSymbols'
+import insertSymbols from './insertSymbols'
+import renameSymbol from './renameSymbol'
 import CreateSymbolState from './store'
 import { CREATE_SYMBOL, SELECTION_CHANGED } from './constants'
 
