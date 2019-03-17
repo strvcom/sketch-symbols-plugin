@@ -63,7 +63,7 @@ You can therefore think about it like `src/..` is your backend and `resources/..
 
 ### Releasing new version ###
 Sketch checks for new version of the plugin each time it starts.\
-It checks master branch of the url specified in `package.json`.\ 
+It checks master branch of the url specified in `package.json`.\
 Sketch looks for changes in `.appcast.xml` file and if there is a new version it pulls it from url specified there.\
 It only accepts `.zip` file that contains the builded plugin.
 So to release new version follow these steps:
