@@ -6,7 +6,7 @@
       "name": "STRV Symbols",
       "description": "Manage your symbols",
       "identifier": "symbols",
-      "script": "./show-symbols.js",
+      "script": "./main.js",
       "shortcut": "ctrl alt y"
     },
     {
