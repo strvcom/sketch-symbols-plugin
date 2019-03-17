@@ -62,3 +62,14 @@ It opens a webview and waits for other functions that are called in the web-view
 You can therefore think about it like `src/..` is your backend and `resources/..` is your frontend.
 
 ### Releasing new version ###
+Sketch checks for new version of the plugin each time it starts.\
+It checks master branch of the url specified in `package.json` of master branch as default repository url for changes in `.appcast.xml` file and if there is a new version it pulls it from url specified there.\
+It only accepts `.zip` file that contains the builded plugin.
+So to release new version follow these steps:
+* clean git tree
+* merge all to dev
+* change the version number in `package.json` and in the `publish` script
+* npm prepare publish
+* commit and push changes
+* npm run publish
+* merge to master
